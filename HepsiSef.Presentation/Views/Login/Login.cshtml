@@ -1,0 +1,108 @@
+﻿<!--banner-->
+<div class="banner banner-blog">
+    <div class="container ">
+        <div class="main-heading">
+            <h1>Login</h1>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="container" id="loginForm">
+    <div class="row">
+
+        <form class="col-md-4 offset-md-4">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Email Adresi</label>
+                <input v-model="form.email" type="email" class="form-control" name="email" id="email"
+                       placeholder="lütfen email adresinizi giriniz">
+
+                <p v-if="response.validationErrors.some(x => x.key == 'email')">
+                    {{ response.validationErrors.find(x => x.key == 'email').value }}
+                </p>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Şifre</label>
+                <input v-model="form.password" type="password" class="form-control" id="exampleInputPassword1"
+                       placeholder="şifrenizi giriniz">
+                <p v-if="response.validationErrors.some(x => x.key == 'password')">
+                    {{ response.validationErrors.find(x => x.key == 'password').value }}
+                </p>
+            </div>
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">beni hatırla</label>
+            </div>
+            <div class="col-md-6" v-if="!loading">
+                <button @@click="login" type="button" class="btn btn-primary">Giriş Yap</button>
+                <p v-if="response.hasError">{{ response.message }}</p>
+            </div>
+            <div class="col-md-6">
+                <a href=@Url.Action("ForgetPassword","Login")><b>Şifremi unuttum</b> </a>
+
+            </div> </br> </br>
+            <div>Henüz bir hesabınız yok mu ? <a href=@Url.Action("Register","Login")><b>buradan</b></a> kayıt olabilirsiniz.</div>
+
+        </form>
+        <div class="col-md-1"></div>
+        <form class="col-md-3">
+            <div class="container">
+                <div class="row">
+                    <br />  <br /><br />
+                    <div class="col-md-3 text-center">
+                        <a class="btn btn-block btn-social btn-facebook">
+                            <span class="fa fa-facebook"></span>Facebook ile giriş yap
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<script>
+var vm = new Vue({
+  el: '#loginForm',
+  data: function() {
+       return {
+           loading: false,
+           form: {
+                email: null,
+                password: null
+           },
+           response: {
+                hasError:false,
+                validationErrors:[],
+                message: null
+           }
+       }
+  },
+    methods: {
+        login() {
+            this.loading = true;
+            axios.post("login/signin", this.form).then((res) => {
+                this.response = res.data;
+
+                if(res.data.hasError)
+                {
+
+                }else
+                {
+                    var token = res.data.data.token
+                    axios.defaults.headers.common['Authorization'] = "Bearer "+ token;
+                    localStorage.setItem("token","Bearer "+ token)
+
+                    axios.post('account/get').then((res) => {
+                        localStorage.setItem("user", JSON.stringify(res.data.data))
+                        window.location.href="/home"
+                    })
+
+
+                }
+    this.loading=false;
+            })
+        }
+    }
+})</script>

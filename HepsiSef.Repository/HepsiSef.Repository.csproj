@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HepsiSef.Core\HepsiSef.Core.csproj" />
+    <ProjectReference Include="..\HepsiSef.DAL\HepsiSef.DAL.csproj" />
+    <ProjectReference Include="..\HepsiSef.Entity\HepsiSef.Entity.csproj" />
+  </ItemGroup>
+
+</Project>

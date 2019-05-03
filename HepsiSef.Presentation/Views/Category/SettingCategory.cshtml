@@ -1,0 +1,222 @@
+﻿<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div class="container" id="category">
+    <div class="row">
+
+        <div class="col-md-8">
+            <table id="categoryList">
+                <thead>
+                    <tr>
+                        <th>Kategori Adı</th>
+                        <th>Açıklama</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="item in items">
+                        <td>{{item.title}}</td>
+                        <td>{{item.description}}</td>
+                        <td>
+                            <button @@click="deleteCategory(item.id)" type="button" class="btn btn-primary">Sil</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="lblCategoryName">Kategori adı</label>
+                <input v-model="form.title" type="text" class="form-control" name="title" id="title"
+                       placeholder="lütfen kategori adı giriniz">
+                <p v-if="response.validationErrors.some(x => x.key == 'title' )">
+                    {{ response.validationErrors.find(x => x.key == 'title').value }}
+                </p>
+            </div>
+
+
+            <div class="form-group">
+                <label for="lblDescription">Açıklama</label>
+                <input v-model="form.description" type="text" class="form-control" name="description"
+                       id="firstname" placeholder="lütfen açıklama giriniz">
+                <p v-if="response.validationErrors.some(x => x.key == 'description' )">
+                    {{ response.validationErrors.find(x => x.key == 'description').value }}
+                </p>
+            </div>
+
+
+            <div class="form-group">
+                <label for="lblParentCategory">Üst kategori adı</label>
+                <el-select v-model="form.parentID"
+                           filterable
+                           remote
+                           reserve-keyword
+                           placeholder="Please enter a keyword"
+                           :remote-method="remoteMethod"
+                           :loading="loading">
+                    <el-option v-for="item in categories"
+                               :key="item.id"
+                               :label="item.title"
+                               :value="item.id">
+                    </el-option>
+                </el-select>
+                <p v-if="response.validationErrors.some(x => x.key == 'parentTitle' )">
+                    {{ response.validationErrors.find(x => x.key == 'parentTitle').value }}
+                </p>
+            </div>
+
+
+
+
+            <div>
+                <button @@click="saveCategory" type="button" class="btn btn-primary">Kaydet</button>
+                <button @@click="updateCategory" type="button" class="btn btn-primary">Güncelle</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recipe-->
+<div id="CategoryPage">
+
+    <!--banner-->
+    <div class="banner banner-blog">
+        <div class="container ">
+            
+
+        </div>
+    </div>
+    <div class="advance-search">
+        <!--advance search form-->
+
+        
+
+        <!--advance search form ends-->
+    </div>
+
+   
+
+
+    <script>
+  $(document).ready(function() {
+    $('#categoryList').DataTable();
+    });
+
+    //Vue.component('button-counter', {
+    //    data: function () {
+    //        return {
+    //            count: 0
+    //        }
+    //    },
+    //    template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
+    //})
+
+      var vm = new Vue({
+  el: '#category',
+  data: function() {
+       return {
+         loading: false,
+           form: {
+
+                title : null,
+                description:  null,
+                parentID: null
+
+           },
+           response: {
+                hasError:false,
+                validationErrors:[],
+                message: null
+           },
+           loading: false,
+    items:[],
+    categories: []
+  }},
+  beforeMount() {
+    this.Load();
+  },
+    methods: {
+
+      remoteMethod(query) {
+        this.loading = true;
+
+        axios.post('category/all', {searchTerm: query}).then((res) => {
+        this.loading = false;
+        this.categories = res.data.data.items;
+
+        })
+      },
+
+    Load() {
+     this.loading = true;
+
+            axios.post("category/all", this.form).then((res) => {
+                this.items = res.data.data.items;
+                this.loading = false;
+            });
+
+       },
+        saveCategory() {
+     this.loading = true;
+
+            axios.post("category/create", this.form).then((res) => {
+
+                this.response = res.data;
+                if(res.data.hasError) {
+                    swal('Hata', res.data.message, 'error')
+                }
+          else {
+             swal('Basarili', res.data.message, 'success')
+             this.form.title = "";
+             this.form.description = "";
+               this.form.parentTitle ="";
+
+           }
+
+            })
+       },
+       updateCategory() {
+     this.loading = true;
+
+            axios.post("category/update", this.form).then((res) => {
+                this.response = res.data;
+
+                if(res.data.hasError) {
+                    swal('Hata', res.data.message, 'error')
+                }
+          else {
+             swal('Basarili', res.data.message, 'success')
+           this.form.title = "";
+             this.form.description = "";
+               this.form.parentTitle ="";
+           }
+            })
+       },
+       deleteCategory(id){
+
+        var index = this.items.findIndex(k => k.id == id);
+
+
+
+     this.loading = true;
+
+            axios.post("category/deletefromcategories",{id}).then((res) => {
+              this.items.splice(index, 1);
+              this.response = res.data;
+             if(res.data.hasError){
+              swal('Hata', res.data.message, 'error')
+             }
+             else{
+              swal('Basarili', res.data.message, 'success')
+              this.form.title = "";
+              this.form.description = "";
+              this.form.parentTitle ="";
+             }
+            })
+
+       }
+
+
+    }
+})
+
+    </script>

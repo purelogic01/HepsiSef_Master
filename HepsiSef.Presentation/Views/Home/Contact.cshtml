@@ -1,0 +1,290 @@
+﻿<!--banner-->
+<div class="banner banner-blog">
+    <div class="container ">
+        <div class="main-heading">
+            <h1>Contact us</h1>
+        </div>
+
+    </div>
+</div>
+<div class="advance-search">
+    <!--advance search form-->
+
+    <div class="container">
+        <div class="wrapper-search">
+            
+          
+        </div>
+    </div>
+
+    <!--advance search form ends-->
+</div>
+
+<!--banner ends-->
+<!--main content area-->
+<section class="recipes-home-body inner-page">
+    <div class="container">
+        <div class="recipe-set">
+            <h2>Our Locations</h2>
+            <div class="contact-container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <section class="contact-option-single">
+                            <h3>Registered office</h3>
+                            <p>
+                                Recipe north street, opp secure garden. Hotel
+                                View, City State Office, Melbournebr <br />
+                                Australia. 123456
+                            </p>
+                            <ul class="contact-options">
+                                <li class="phone"><span>Phone: </span>+123 4567 890</li>
+                                <li class="fax"><span>Fax: </span>+123 4567 890</li>
+                                <li class="email"><span>Email: </span><a href="#">info@foodandtaste.com</a></li>
+                            </ul>
+                        </section>
+                    </div>
+                    <div class="col-md-4">
+                        <section class="contact-option-single">
+                            <h3>Our Restaurant</h3>
+                            <p>
+                                Recipe north street, opp secure garden. Hotel
+                                View, City State Office, Melbourne <br />
+                                Australia. 123456
+                            </p>
+                            <ul class="contact-options">
+                                <li class="phone"><span>Phone: </span>+123 4567 890</li>
+                                <li class="fax"><span>Fax: </span>+123 4567 890</li>
+                                <li class="email"><span>Email: </span><a href="#">info@foodandtaste.com</a></li>
+                            </ul>
+                        </section>
+                    </div>
+                    <div class="col-md-4">
+                        <section class="contact-option-single">
+                            <h3>Other Office</h3>
+                            <p>
+                                Recipe north street, opp secure garden. Hotel
+                                View, City State Office, Melbourne <br />
+                                Australia. 123456
+                            </p>
+                            <ul class="contact-options">
+                                <li class="phone"><span>Phone: </span>+123 4567 890</li>
+                                <li class="fax"><span>Fax: </span>+123 4567 890</li>
+                                <li class="email"><span>Email: </span><a href="#">info@foodandtaste.com</a></li>
+                            </ul>
+                        </section>
+                    </div>
+                </div>
+
+                <div class="separator-post"></div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="contact-option-single">
+                            <h3>Quick Contact</h3>
+                            <fieldset>
+                                <div class="container" id="sendMessage">
+                                    <form action="contact_form_handler.php" method="post" novalidate="novalidate">
+                                        <div class="form-group">
+                                            <input v-model="form.Name" type="text" class="form-control" name="name" id="Name"
+                                                   placeholder="lütfen adınızı giriniz">
+                                            <p v-if="response.validationErrors.some(x => x.key == 'Name' )">
+                                                {{ response.validationErrors.find(x => x.key == 'Name').value }}
+                                            </p>
+                                        </div>
+
+                                        <div>
+                                            <input v-model="form.Nemail" type="email" class="form-control" name="email" id="Email"
+                                                   placeholder="lütfen email adresinizi giriniz">
+                                            <p v-if="response.validationErrors.some(x => x.key == 'Email')">
+                                                {{ response.validationErrors.find(x => x.key == 'Email').value }}
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <input v-model="form.PhoneNumber" type="number" class="form-control" name="PhoneNumber" id="PhoneNumber"
+                                                   placeholder="lütfen telefon numaranızı giriniz">
+                                            <p v-if="response.validationErrors.some(x => x.key == 'PhoneNumber')">
+                                                {{ response.validationErrors.find(x => x.key == 'PhoneNumber').value }}
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <input v-model="form.Message" type="text" class="form-control" name="message" id="Message"
+                                                   placeholder="mesajınız" multiple>
+                                            <p v-if="response.validationErrors.some(x => x.key == 'Message')">
+                                                {{ response.validationErrors.find(x => x.key == 'Message').value }}
+                                            </p>
+                                        </div>
+                                        <button @@click="sendMessage" type="submit">submit message</button>
+                                        <p v-if="response.hasError">{{ response.message }}</p>
+                                    </form>
+                                </div>
+                                
+                            </fieldset>
+                            <div class="error-container"></div>
+                            <div id="message-sent"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+
+
+                        <!--google map-->
+                        <div class="contact-option-single">
+                            <h3>Find Location on Map</h3>
+                            <div class="map-wrapper">
+                                <div id="map_canvas"></div>
+
+                            </div>
+                            <script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3&amp;sensor=false"></script>
+                            <script type="text/javascript">
+function init_map() {
+
+                                    var mapLatitude = 39.0500155,
+                                        mapLongitude = -77.1169103,
+                                        mapZoom = 14;
+
+                                    var myOptions = {
+                                        zoom: mapZoom,
+                                        scrollwheel: false,
+                                        center: new google.maps.LatLng(mapLatitude, mapLongitude),
+                                        mapTypeId: google.maps.MapTypeId.ROADMAP,
+                                        styles: [
+                                            {
+                                                "featureType": "landscape",
+                                                "elementType": "labels",
+                                                "stylers": [
+                                                    {
+                                                        "visibility": "off"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "featureType": "transit",
+                                                "elementType": "labels",
+                                                "stylers": [
+                                                    {
+                                                        "visibility": "off"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "featureType": "poi",
+                                                "elementType": "labels",
+                                                "stylers": [
+                                                    {
+                                                        "visibility": "off"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "featureType": "water",
+                                                "elementType": "labels",
+                                                "stylers": [
+                                                    {
+                                                        "visibility": "off"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "featureType": "road",
+                                                "elementType": "labels.icon",
+                                                "stylers": [
+                                                    {
+                                                        "visibility": "off"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "stylers": [
+                                                    {
+                                                        "hue": "#00aaff"
+                                                    },
+                                                    {
+                                                        "saturation": -100
+                                                    },
+                                                    {
+                                                        "gamma": 1.15
+                                                    },
+                                                    {
+                                                        "lightness": 12
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "featureType": "road",
+                                                "elementType": "labels.text.fill",
+                                                "stylers": [
+                                                    {
+                                                        "visibility": "on"
+                                                    },
+                                                    {
+                                                        "lightness": 24
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "featureType": "road",
+                                                "elementType": "geometry",
+                                                "stylers": [
+                                                    {
+                                                        "lightness": 10
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    };
+                                    map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+                                    marker = new google.maps.Marker({map: map, position: new google.maps.LatLng(mapLatitude, mapLongitude)});
+
+                                }
+                                google.maps.event.addDomListener(window, "load", init_map);</script>
+                        </div>
+                        <!--google map ends-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--main content area-->
+
+
+
+<script>
+    var vm = new Vue({
+        el: '#sendMessage',
+        data: function () {
+            return {
+                loading: false,
+                form: {
+                    Email: null,
+                    Message: null,
+                    PhoneNumber: null,
+                    Name: null
+                },
+                response: {
+                    hasError: false,
+                    validationErrors: [],
+                    message: null
+                }
+            }
+        }, methods: {
+            sendMessage() {
+                axios.post("contact/quickcontact", this.form).then((res) => {
+                    this.response = res.data;
+                    if (res.data.hasError) {
+                        swal('Hata', res.data.message, 'error')
+                    }
+                    else {
+                        swal('Basarili', res.data.message, 'success')
+                        this.form.email = "";
+                        this.form.message = "";
+                        this.form.phoneNumber = "";
+                        this.form.name = "";
+
+                    }
+                })
+            }
+        }
+
+
+</script>

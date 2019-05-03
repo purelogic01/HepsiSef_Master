@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HepsiSef.Core\HepsiSef.Core.csproj" />
+    <ProjectReference Include="..\HepsiSef.Entity\HepsiSef.Entity.csproj" />
+  </ItemGroup>
+
+</Project>

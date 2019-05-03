@@ -1,0 +1,244 @@
+﻿<div id="recipePage">
+
+    <!--banner-->
+    <div class="banner banner-blog">
+        <div class="container ">
+            <div class="main-heading">
+                <h1>Tarif ayarları</h1>
+            </div>
+
+        </div>
+    </div>
+    <div class="advance-search">
+        <!--advance search form-->
+
+        <div class="container">
+            <div class="wrapper-search">
+                <div class="container-tags">
+                    <span class="tag">
+                        <span class="tag-inner">Tarif Arama <i class="fa fa-angle-down"></i></span>
+                    </span>
+
+                </div>
+                <div class="outer-advance-search">
+
+                    <form action="#" id="advance-search">
+                        <fieldset>
+                            <div class="inner-advance-search">
+
+                                <div class="form-field">
+                                    <label for="category">Kategori</label><br />
+                                    <el-select v-model="filter.category" placeholder="Kategori Sec" clearable>
+                                        <el-option v-for="item in categories"
+                                                   :key="item.id"
+                                                   :label="item.title"
+                                                   :value="item.id">
+                                        </el-option>
+                                    </el-select>
+                                </div>
+
+                                <div class="form-field">
+                                    <label for="serviceCount">Kaç Kişilik?</label>
+
+                                    <el-select v-model="filter.serviceCount" placeholder="Kategori Sec" clearable>
+                                        <el-option :value="1" :label="1 + ' kisilik'"></el-option>
+                                        <el-option :value="2" :label="2 + ' kisilik'"></el-option>
+                                        <el-option :value="3" :label="3 + ' kisilik'"></el-option>
+                                        <el-option :value="4" :label="4 + ' kisilik'"></el-option>
+                                    </el-select>
+
+                                </div>
+
+                                <div class="form-field">
+                                    <label for="cookingTime">Pişirme Süresi</label>
+
+                                    <el-select v-model="filter.cookingTime" placeholder="Pisirme Suresi SECIN" clearable>
+                                        <el-option :value="15" :label="15 + ' dakikadan az'"></el-option>
+                                        <el-option :value="30" :label="30 + ' dakikadan az'"></el-option>
+                                        <el-option :value="60" :label="60 + ' dakikadan az'"></el-option>
+                                    </el-select>
+
+                                </div>
+
+                                <button type="submit"><i class="fa fa-search"></i></button>
+
+                            </div>
+                        </fieldset>
+
+                        {{filter}}
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!--advance search form ends-->
+    </div>
+
+    <div class="listing" v-for="(recipe, index) in items">
+        <div class="image">
+            <a href="#">
+                <img :src="recipe.images[0].image" alt="image" />
+            </a>
+        </div>
+        <div class="detail">
+            <h4><a href="#">{{recipe.title}}</a></h4>
+            <p>
+                {{recipe.details}}
+            </p>
+            <div class="meta-listing">
+                <ul class="post-meta">
+                    <li class="author"><a href="#">{{recipe.username}}</a></li>
+                    <li class="calendar">{{recipe.createDate}}</li>
+                </ul>
+                <div class="rating-box">
+                    <span class="rating-icons">
+                        <svg class="icon-container" width="25" height="19" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 19">
+
+                            <g>
+                                <title>background</title>
+                                <rect fill="none" height="21" width="27" y="-1" x="-1" />
+                            </g>
+                            <g>
+                                <title>Layer 1</title>
+                                <path class="icon-svg" d="m24.671816,17.625433c0,0.438 -0.286999,0.801001 -0.681,0.935001c-0.095001,0.036999 -0.198002,0.064999 -0.318001,0.064999l-16.000998,0c-0.553,0 -1,-0.448 -1,-1c0,-0.553999 0.447,-1 1,-1l14.950999,0c-0.500999,-5.053999 -4.764997,-9 -9.950999,-9c-5.523,0 -10,4.477001 -10,10c0,0 0.063,1 -1,1c-1.062,0 -1,-1 -1,-1c0,-5.769999 4.071,-10.581999 9.495001,-11.734999c-0.306002,-0.52 -0.495001,-1.117001 -0.495001,-1.765001c0,-1.933999 1.566999,-3.499999 3.5,-3.499999c1.931999,0 3.499,1.567 3.499,3.499999c0,0.739 -0.232998,1.423 -0.624998,1.989c4.984999,1.459 8.625998,6.056 8.625998,11.511l0,0zm-11.499,-15c-0.828999,0 -1.500999,0.670001 -1.500999,1.499001c0,0.827999 0.672001,1.5 1.500999,1.5c0.828001,0 1.499001,-0.672001 1.499001,-1.5c0,-0.829 -0.671,-1.499001 -1.499001,-1.499001l0,0z" clip-rule="evenodd" fill-rule="evenodd" />
+                            </g>
+                        </svg>
+                    </span>
+                    <span class="rating-icons">
+                        <svg class="icon-container" width="25" height="19" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 19">
+
+                            <g>
+                                <title>background</title>
+                                <rect fill="none" height="21" width="27" y="-1" x="-1" />
+                            </g>
+                            <g>
+                                <title>Layer 1</title>
+                                <path class="icon-svg" d="m24.671816,17.625433c0,0.438 -0.286999,0.801001 -0.681,0.935001c-0.095001,0.036999 -0.198002,0.064999 -0.318001,0.064999l-16.000998,0c-0.553,0 -1,-0.448 -1,-1c0,-0.553999 0.447,-1 1,-1l14.950999,0c-0.500999,-5.053999 -4.764997,-9 -9.950999,-9c-5.523,0 -10,4.477001 -10,10c0,0 0.063,1 -1,1c-1.062,0 -1,-1 -1,-1c0,-5.769999 4.071,-10.581999 9.495001,-11.734999c-0.306002,-0.52 -0.495001,-1.117001 -0.495001,-1.765001c0,-1.933999 1.566999,-3.499999 3.5,-3.499999c1.931999,0 3.499,1.567 3.499,3.499999c0,0.739 -0.232998,1.423 -0.624998,1.989c4.984999,1.459 8.625998,6.056 8.625998,11.511l0,0zm-11.499,-15c-0.828999,0 -1.500999,0.670001 -1.500999,1.499001c0,0.827999 0.672001,1.5 1.500999,1.5c0.828001,0 1.499001,-0.672001 1.499001,-1.5c0,-0.829 -0.671,-1.499001 -1.499001,-1.499001l0,0z" clip-rule="evenodd" fill-rule="evenodd" />
+                            </g>
+                        </svg>
+                    </span>
+                    <span class="rating-icons">
+                        <svg class="icon-container" width="25" height="19" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 19">
+
+                            <g>
+                                <title>background</title>
+                                <rect fill="none" height="21" width="27" y="-1" x="-1" />
+                            </g>
+                            <g>
+                                <title>Layer 1</title>
+                                <path class="icon-svg" d="m24.671816,17.625433c0,0.438 -0.286999,0.801001 -0.681,0.935001c-0.095001,0.036999 -0.198002,0.064999 -0.318001,0.064999l-16.000998,0c-0.553,0 -1,-0.448 -1,-1c0,-0.553999 0.447,-1 1,-1l14.950999,0c-0.500999,-5.053999 -4.764997,-9 -9.950999,-9c-5.523,0 -10,4.477001 -10,10c0,0 0.063,1 -1,1c-1.062,0 -1,-1 -1,-1c0,-5.769999 4.071,-10.581999 9.495001,-11.734999c-0.306002,-0.52 -0.495001,-1.117001 -0.495001,-1.765001c0,-1.933999 1.566999,-3.499999 3.5,-3.499999c1.931999,0 3.499,1.567 3.499,3.499999c0,0.739 -0.232998,1.423 -0.624998,1.989c4.984999,1.459 8.625998,6.056 8.625998,11.511l0,0zm-11.499,-15c-0.828999,0 -1.500999,0.670001 -1.500999,1.499001c0,0.827999 0.672001,1.5 1.500999,1.5c0.828001,0 1.499001,-0.672001 1.499001,-1.5c0,-0.829 -0.671,-1.499001 -1.499001,-1.499001l0,0z" clip-rule="evenodd" fill-rule="evenodd" />
+                            </g>
+                        </svg>
+                    </span>
+                    <span class="rating-icons">
+                        <svg class="icon-container" width="25" height="19" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 19">
+
+                            <g>
+                                <title>background</title>
+                                <rect fill="none" height="21" width="27" y="-1" x="-1" />
+                            </g>
+                            <g>
+                                <title>Layer 1</title>
+                                <path class="icon-svg" d="m24.671816,17.625433c0,0.438 -0.286999,0.801001 -0.681,0.935001c-0.095001,0.036999 -0.198002,0.064999 -0.318001,0.064999l-16.000998,0c-0.553,0 -1,-0.448 -1,-1c0,-0.553999 0.447,-1 1,-1l14.950999,0c-0.500999,-5.053999 -4.764997,-9 -9.950999,-9c-5.523,0 -10,4.477001 -10,10c0,0 0.063,1 -1,1c-1.062,0 -1,-1 -1,-1c0,-5.769999 4.071,-10.581999 9.495001,-11.734999c-0.306002,-0.52 -0.495001,-1.117001 -0.495001,-1.765001c0,-1.933999 1.566999,-3.499999 3.5,-3.499999c1.931999,0 3.499,1.567 3.499,3.499999c0,0.739 -0.232998,1.423 -0.624998,1.989c4.984999,1.459 8.625998,6.056 8.625998,11.511l0,0zm-11.499,-15c-0.828999,0 -1.500999,0.670001 -1.500999,1.499001c0,0.827999 0.672001,1.5 1.500999,1.5c0.828001,0 1.499001,-0.672001 1.499001,-1.5c0,-0.829 -0.671,-1.499001 -1.499001,-1.499001l0,0z" clip-rule="evenodd" fill-rule="evenodd" />
+                            </g>
+                        </svg>
+                    </span>
+                    <span class="rating-icons">
+                        <svg class="icon-container" width="25" height="19" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 19">
+
+                            <g>
+                                <title>background</title>
+                                <rect fill="none" height="21" width="27" y="-1" x="-1" />
+                            </g>
+                            <g>
+                                <title>Layer 1</title>
+                                <path class="icon-svg" d="m24.671816,17.625433c0,0.438 -0.286999,0.801001 -0.681,0.935001c-0.095001,0.036999 -0.198002,0.064999 -0.318001,0.064999l-16.000998,0c-0.553,0 -1,-0.448 -1,-1c0,-0.553999 0.447,-1 1,-1l14.950999,0c-0.500999,-5.053999 -4.764997,-9 -9.950999,-9c-5.523,0 -10,4.477001 -10,10c0,0 0.063,1 -1,1c-1.062,0 -1,-1 -1,-1c0,-5.769999 4.071,-10.581999 9.495001,-11.734999c-0.306002,-0.52 -0.495001,-1.117001 -0.495001,-1.765001c0,-1.933999 1.566999,-3.499999 3.5,-3.499999c1.931999,0 3.499,1.567 3.499,3.499999c0,0.739 -0.232998,1.423 -0.624998,1.989c4.984999,1.459 8.625998,6.056 8.625998,11.511l0,0zm-11.499,-15c-0.828999,0 -1.500999,0.670001 -1.500999,1.499001c0,0.827999 0.672001,1.5 1.500999,1.5c0.828001,0 1.499001,-0.672001 1.499001,-1.5c0,-0.829 -0.671,-1.499001 -1.499001,-1.499001l0,0z" clip-rule="evenodd" fill-rule="evenodd" />
+                            </g>
+                        </svg>
+                    </span>
+                    <span class="rating-figure">(4.1 / 5)</span>
+                </div>
+
+            </div>
+            <span class="arrow-nav right-arrow"><a :href="'/home/detail?slug=' + recipe.slug">Detayları gör</a><i class="fa fa-angle-right"></i></span>
+            <button style="height:30px;width:40px" @@click="deleteRecipe(recipe.id,index)" type="button" class="btn btn-primary">Sil</button>
+            <span class="arrow-nav right-arrow"><a :href="'/recipe/settingdetailrecipe?slug=' + recipe.slug">düzenle</a><i class="fa fa-angle-right"></i></span>
+
+        </div>
+    </div>
+
+
+
+
+    <script>
+        Vue.component('v-select', VueSelect.VueSelect)
+
+        var vm = new Vue({
+            el: '#recipePage',
+            data: function () {
+                return {
+                    loading: false,
+                    user: {},
+                    categories: [],
+                    filter: {
+                        category: null,
+                        serviceCount: null,
+                        cookingTime: null,
+                        skip: 0
+                    },
+                    items: []
+
+                }
+            },
+
+            methods: {
+                CallRecipe() {
+                    axios.post("recipe/all", this.filter).then((res) => {
+
+                        this.items = res.data.data.items;
+                    })
+                },
+                deleteRecipe(id, index) {
+
+
+                    this.loading = true;
+
+                    axios.post("recipe/delete", { id }).then((res) => {
+
+                        this.response = res.data;
+                        if (res.data.hasError) {
+                            swal('Hata', res.data.message, 'error')
+                        }
+                        else {
+                            swal('Basarili', res.data.message, 'success')
+                            if (this.items.lenght == 1) {
+                                this.items = []
+                            }
+                            this.items.splice(index, 1)
+
+                        }
+                    })
+
+                }
+            }, beforeMount() {
+                axios.post('http://localhost:5005/api/category/all', { searchTerm: '' }).then((res) => {
+                    this.categories = res.data.data.items;
+                })
+                axios.post("recipe/all", { filter: null }).then((res) => {
+
+                    this.items = res.data.data.items;
+                })
+            },
+            watch: {
+                filter: {
+                    handler: function () {
+                        this.CallRecipe()
+                    },
+                    deep: true
+                }
+            }
+        })</script>
+
+ 
+

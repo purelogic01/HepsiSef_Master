@@ -1,0 +1,40 @@
+﻿<div id="settingRecipe">
+    <input  type="text" data-original-value="{{recipe.title}}"  class="restorable"/>
+
+
+
+</div>
+
+
+
+
+<script>
+    var vm = new Vue({
+        el: '#settingRecipe',
+        data: function () {
+            return {
+                loading: false,
+                user: {},
+                categories: [],
+                filter: {
+                    category: null,
+                    serviceCount: null,
+                    cookingTime: null,
+                    skip: 0
+                },
+                items: []
+
+            }
+        }, beforeMount() {
+            axios.post('http://localhost:5005/api/category/all', { searchTerm: '' }).then((res) => {
+                this.categories = res.data.data.items;
+            })
+
+
+        }
+    })
+
+
+
+
+</script>

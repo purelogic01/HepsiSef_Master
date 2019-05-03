@@ -1,0 +1,151 @@
+﻿<!--banner-->
+<div class="banner banner-blog">
+    <div class="container ">
+        <div class="main-heading">
+            <h1>Kayıt ol</h1>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
+<div class="container" id="signupform">
+    <div class="row">
+        <form class="col-md-3"></form>
+        <form class="col-md-3 offset-md-3">
+            <div class="form-group">
+                <label for="exampleInputUsername1">Kullanıcı adı</label>
+                <input v-model="form.username" type="text" class="form-control" name="username" id="username"
+                       placeholder="lütfen bir kullanıcı adı giriniz">
+                <p v-if="response.validationErrors.some(x => x.key == 'username' )">
+                    {{ response.validationErrors.find(x => x.key == 'username').value }}
+                </p>
+            </div>
+            <div class="form-group">
+                <label for="lblFirstName">İsim</label>
+                <input v-model="form.firstname" type="text" class="form-control" name="firstname"
+                       id="firstname" placeholder="lütfen isminizi giriniz">
+                <p v-if="response.validationErrors.some(x => x.key == 'firstname' )">
+                    {{ response.validationErrors.find(x => x.key == 'firstname').value }}
+                </p>
+            </div>
+            <div class="form-group">
+                <label for="lblLastName">Soyisim</label>
+                <input v-model="form.lastname" type="text" class="form-control" name="lastname" id="lastname"
+                       placeholder="lütfen soyisminizi giriniz">
+                <p v-if="response.validationErrors.some(x => x.key == 'lastname' )">
+                    {{ response.validationErrors.find(x => x.key == 'lastname').value }}
+                </p>
+            </div>
+
+
+
+            <div class="form-group">
+                <label for="exampleInputEmail1">Email</label>
+                <input v-model="form.email" type="email" class="form-control" name="email" id="email
+                " aria-describedby="emailHelp" placeholder="lütfen email adresinizi giriniz">
+                @*<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>*@
+                <p v-if="response.validationErrors.some(x => x.key == 'email')">
+                    {{ response.validationErrors.find(x => x.key == 'email').value }}
+                </p>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword">Şifre</label>
+                <input v-model="form.password" type="password" class="form-control" id="exampleInputPassword"
+                       placeholder="lütfen şifrenizi giriniz">
+                <p v-if="response.validationErrors.some(x => x.key == 'password')">
+                    {{ response.validationErrors.find(x => x.key == 'password').value }}
+                </p>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword-Retry">Şifre tekrar</label>
+                <input v-model="form.passwordretry" type="password" class="form-control"
+                       id="exampleInputPassword-Retry" placeholder="lütfen şifrenizi tekrar giriniz">
+                <p v-if="response.validationErrors.some(x => x.key == 'passwordretry')">
+                    {{ response.validationErrors.find(x => x.key == 'passwordretry').value }}
+                </p>
+            </div>
+
+            <button @@click="register" type="button" class="btn btn-primary">Gönder</button>
+            <p v-if="response.hasError">{{ response.message }}</p>
+        </form>
+        <form class="col-md-3">
+            <div class="container">
+                <div class="row">
+                    <br /><br /><br />
+
+                    <div class="col-md-3 text-center">
+                        <a class="btn btn-block btn-social btn-facebook">
+                            <span class="fa fa-facebook"></span>Facebook ile giriş yap
+                        </a>
+                    </div>
+                    <br /><br /><br /><br />
+
+                    <div class="col-md-3 text-center">
+                        <a class="btn btn-block btn-social btn-twitter">
+                            <span class="fa fa-twitter"></span>Twitter ile giriş yap
+                        </a>
+                    </div>
+
+                    <br /><br /><br /><br />
+
+                    <div class="col-md-3 text-center">
+                        <a class="btn btn-block btn-social btn-google">
+                            <span class="fa fa-google"></span>Google ile giriş yap
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<script>
+var vms = new Vue({
+  el: '#signupform',
+  data: function() {
+       return {
+           form: {
+                username: null,
+                firstname: null,
+                lastname: null,
+                email: null,
+                password: null,
+                passwordretry: null
+           },
+           response: {
+                hasError:false,
+                validationErrors:[],
+                message: null
+           }
+       }
+  },
+    methods: {
+        register() {
+            axios.post("login/signup", this.form).then((res) => {
+                this.response = res.data;
+
+                if(res.data.hasError)
+                {
+
+                }else
+                {
+                    var token = res.data.data.token
+                    axios.defaults.headers.common['Authorization'] = "Bearer "+ token;
+                    localStorage.setItem("token","Bearer "+ token)
+
+                    axios.post('account/get').then((res) => {
+                        localStorage.setItem("user", JSON.stringify(res.data.data))
+                  window.location.href = '@Url.Action("Index", "Home")'
+                   })
+                }
+            })
+        }
+    }
+})</script>
