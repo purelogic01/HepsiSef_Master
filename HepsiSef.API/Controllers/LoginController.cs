@@ -15,6 +15,9 @@ using HepsiSef.Entity.SystemUser;
 using System.Web;
 using HepsiSef.Model;
 using HepsiSef.Model.Request.User;
+using System.Collections.Generic;
+using static HepsiSef.Core.Enums.Enums;
+using FacebookCore;
 
 namespace HepsiSef.API.Controllers
 {
@@ -23,14 +26,17 @@ namespace HepsiSef.API.Controllers
     {
         private readonly IUserRepository userRepo;
         private readonly IForgatPasswordRepository forgatPasswordRepo;
+        private readonly IExternalLoginRepository externalLoginRepo;
 
         public LoginController(
             IUserRepository userRepo,
-            IForgatPasswordRepository forgatPasswordRepo
+            IForgatPasswordRepository forgatPasswordRepo,
+            IExternalLoginRepository externalLoginRepo
             )
         {
             this.userRepo = userRepo;
             this.forgatPasswordRepo = forgatPasswordRepo;
+            this.externalLoginRepo = externalLoginRepo;
         }
 
         [HttpPost]
@@ -200,7 +206,103 @@ namespace HepsiSef.API.Controllers
             return Ok(response);
         }
 
+        [AllowAnonymous]
+        [HttpPost]
+        public ActionResult Facebook([FromBody]FacebookRequest request)
+        {
+            var response = new BaseResponse<SignInResponse>();
+            response.Data = new SignInResponse();
 
+            FacebookClient client = new FacebookClient(request.FacebookToken, "1112107155635637");
+            var FBresponse = client.Get("/me?fields=id,first_name,last_name,email", request.FacebookToken);
+            string id = (string)FBresponse.SelectToken("id");
+            string firstName = (string)FBresponse.SelectToken("first_name");
+            string lastName = (string)FBresponse.SelectToken("last_name");
+            string email = (string)FBresponse.SelectToken("email");
+
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                response.Message = "Facebookta kayıtlı herhangi bir e-posta adresiniz olmadığı için oturum açamıyoruz, lütfen kayıt ol seçeneğini kullanın.";
+                return Ok(response);
+            }
+
+            User user = null;
+            var control = externalLoginRepo.FirstOrDefaultBy(x => x.ProviderKey == id && x.ProviderName == Provider.Facebook);
+            if (control != null)
+            {
+                user = userRepo.GetById(control.UserID);
+            }
+            else
+            {
+                user = userRepo.FirstOrDefaultBy(x => x.Email == email);
+                if (user == null)
+                {
+                    //Yeni kullanıcı oluşturmamız lazım.
+
+                    var Username = email.Split("@")[0].ToString().ToLower();
+
+                    while (userRepo.Any(x => x.Username == Username))
+                    {
+                        Username += new Random().Next(1, 9).ToString();
+                    }
+
+                    var Password = new Cryptography().EncryptString(Cryptography.GenerateKey(6));
+
+
+                    List<ExternalLogin> externalLogins = new List<ExternalLogin>();
+                    externalLogins.Add(new ExternalLogin
+                    {
+                        ProviderKey = id,
+                        ProviderName = Provider.Facebook
+                    });
+
+                    var temp = new Entity.SystemUser.User
+                    {
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = email,
+                        Role = Role.User,
+                        Username = Username,
+                        Password = Password,
+                        ExternalLogins = externalLogins
+                    };
+                    userRepo.Add(temp);
+
+                    user = temp;
+                }
+                else
+                {
+                    externalLoginRepo.Add(new ExternalLogin
+                    {
+                        UserID = user.Id,
+                        ProviderKey = id,
+                        ProviderName = Provider.Facebook
+                    });
+                }
+
+            }
+
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes("this is my custom Secret key for authnetication");
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(ClaimTypes.Name, user.Username),
+                    new Claim("userID",user.Id.ToString()),
+                    new Claim(ClaimTypes.Role, user.Role.ToString()),
+                    new Claim("firstName",user.FirstName),
+                    new Claim("lastName",user.LastName)
+                }),
+                Expires = DateTime.UtcNow.AddDays(7),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            response.Data.Token = tokenHandler.WriteToken(token);
+
+            return Ok(response);
+        }
 
 
 

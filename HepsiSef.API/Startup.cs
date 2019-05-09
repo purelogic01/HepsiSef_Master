@@ -97,7 +97,7 @@ namespace HepsiSef.API
 
                 services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-
+                
                 services.AddScoped<IUserRepository, UserRepository>();
                 services.AddScoped<ICategoryRepository, CategoryRepository>();
                 services.AddScoped<IRecipeRepository, RecipeRepository>();
@@ -108,6 +108,8 @@ namespace HepsiSef.API
                 services.AddScoped<IBookmarkRepository, BookmarkRepository>();
                 services.AddScoped<IRecipeRateRepository, RecipeRateRepository>();
                 services.AddScoped<IForgatPasswordRepository, ForgatPasswordRepository>();
+                services.AddScoped<IContactRepository, ContactRepository>();
+                services.AddScoped<IExternalLoginRepository, ExternalLoginRepository>();
 
                 services.AddCors(options =>
                 {

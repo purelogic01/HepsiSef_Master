@@ -1,5 +1,6 @@
 ﻿
 <header>
+
     <div class="header header-var1 fade-load-down">
         <div class="responsive-menu"></div>
         <div class="nav-var1">
@@ -49,17 +50,46 @@
                                     <a v-if="!loggedIn" class="login" href=@Url.Action("Login","Login")>Login</a>
                                     <a v-if="!loggedIn" class="register" href=@Url.Action("Register","Login")>Register</a>
                                     <a v-if="loggedIn" class="register">Merhaba, {{user.firstName}}</a>
-                                    <button v-if="loggedIn" @@click="signout" type="button" class="btn btn-primary">Çıkış</button>
-                                    <span>
-                                        <button v-if="LoginAdmin && loggedIn" @@click="settingsCategory" type="button" class="btn btn-primary">Kategori ayarları</button>
-                                    </span>
-                                    <span>
-                                        <button v-if="LoginAdmin && loggedIn" @@click="settingRecipe" type="button" class="btn btn-primary">Tarif ayarları</button>
-                                    </span>
+
+                                    <div class="dropup" v-if="loggedIn">
+                                        <a style="cursor: pointer" class="dropdown-toggle login" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Ayarlar
+                                            <span class="caret"></span>
+                                        </a>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                            <li><a href="#" v-if="LoginAdmin && loggedIn" @@click="settingsCategory">Kategori ayarları</a></li>
+                                            <li><a href="#" v-if="LoginAdmin && loggedIn" @@click="settingRecipe"> Tarif Ayarları </a></li>
+                                            <li><a href="#" v-if="loggedIn" @@click="signout">Çıkış</a></li>
+                                        </ul>
+                                    </div>
+
+
+
+
+                                    @*<el-dropdown :hide-on-click="false" v-if="loggedIn">
+                                            <span class="el-dropdown-link">
+                                                Ayarlar<i class="el-icon-arrow-down el-icon--right"></i>
+                                            </span>
+                                            <el-dropdown-menu slot="dropdown">
+                                                <el-dropdown-item v-if="LoginAdmin && loggedIn" @@click="settingsCategory">Kategori Ayarları</el-dropdown-item>
+                                                <el-dropdown-item v-if="LoginAdmin && loggedIn" @@click="settingRecipe" >Tarif Ayarları</el-dropdown-item>
+                                                <el-dropdown-item v-if="loggedIn" @@click="signout">Çıkış</el-dropdown-item>
+
+                                            </el-dropdown-menu>
+                                        </el-dropdown>*@
+
+
+                                    @*<button v-if="loggedIn" @@click="signout" type="button" class="btn btn-primary">Çıkış</button>
+                                        <span>
+                                            <button v-if="LoginAdmin && loggedIn" @@click="settingsCategory" type="button" class="btn btn-primary">Kategori ayarları</button>
+                                        </span>
+                                        <span>
+                                            <button v-if="LoginAdmin && loggedIn" @@click="settingRecipe" type="button" class="btn btn-primary">Tarif ayarları</button>
+                                        </span>*@
                                 </span>
-                               
-                                    
-                                
+
+
+
                             </div>
 
                             <nav class="nav-collapse">
@@ -140,3 +170,13 @@ var vm = new Vue({
 })</script>
 
 
+<style>
+    .el-dropdown-link {
+        cursor: pointer;
+        color: #409EFF;
+    }
+
+    .el-icon-arrow-down {
+        font-size: 12px;
+    }
+</style>

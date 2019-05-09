@@ -8,13 +8,19 @@ namespace HepsiSef.Model.Request.Contact
     public class ContactRequest
     {
         public string Name { get; set; }
+
         [EmailAddress]
         [Required]
         public string Email { get; set; }
+
         public string PhoneNumber { get; set; }
+
         [Required]
         [MinLength(3)]
         public string Message { get; set; }
+
+        [Required]
+        public string CaptchaToken { get; set; }
 
     }
 }

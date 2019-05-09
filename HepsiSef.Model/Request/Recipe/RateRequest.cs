@@ -9,19 +9,8 @@ namespace HepsiSef.Model.Request.Recipe
     {
         [Required]
         public Guid RecipeID { get; set; }
-        [Required]
-        public string FullName { get; set; }
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; }
-        [Required]
-        //[]
-        public int Rate { get; set; }
-        [Required]
-        public string Comment { get; set; }
 
-
-
-
+        [Required]
+        public decimal Rate { get; set; }
     }
 }

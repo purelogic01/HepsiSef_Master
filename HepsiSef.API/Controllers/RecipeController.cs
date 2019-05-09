@@ -100,7 +100,8 @@ namespace HepsiSef.API.Controllers
                 Slug = x.Slug,
                 UserID = x.UserID,
                 Username = x.User.Username,
-                CreateDate = x.CreateDate
+                CreateDate = x.CreateDate,
+                AvarageRate = x.Rates.Any(y => y.RecipeID == x.Id) ? x.Rates.Average(y => y.Rate) : 0
             }).ToList().FirstOrDefault();
 
             return Ok(response);
@@ -135,11 +136,21 @@ namespace HepsiSef.API.Controllers
                     Id = y.Id,
                     Image = y.Image
                 }).ToList() : new List<ImageMM>()),
+                Rates = (x.Rates.Any(y => y.RecordStatus == RecordStatus.Active) ? x.Rates.Where(y => y.RecordStatus == RecordStatus.Active).Select(y => new RateMM {
+                    Id = y.Id,
+                    Rate = y.Rate
+                }).ToList() : new List<RateMM>()),
+
+
 
                 Slug = x.Slug,
                 UserID = x.UserID,
                 Username = x.User.Username,
-                CreateDate = x.CreateDate
+                CreateDate = x.CreateDate,
+                Rate = 0,
+                AvarageRate = x.Rates.Any(y => y.RecipeID == x.Id) ? x.Rates.Average(y => y.Rate) : 0
+
+
             }).ToList();
 
             return Ok(response);
@@ -300,21 +311,25 @@ namespace HepsiSef.API.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize]
         public IActionResult AddRate([FromBody]RateRequest request)
         {
             if (!ModelState.IsValid)
                 return Ok(ModelState);
 
             var response = new BaseResponse<bool>();
+            
+            if ( rateRepo.Any(x => x.RecipeID == request.RecipeID  && x.UserID == CurrentUserID))
+            {
+                response.SetMessage("Daha önce oylama yapmışsınız");
+                return Ok(response);
+            }
+
+
             var item = new RecipeRate
             {
-
                 RecipeID = request.RecipeID,
-                FullName = request.FullName,
-                Email = request.Email,
                 Rate = request.Rate,
-                Comment = request.Comment,
                 Status = Status.NotAppproved
 
             };
@@ -329,6 +344,32 @@ namespace HepsiSef.API.Controllers
 
             return Ok(response);
         }
+
+        //[HttpPost]
+        //public IActionResult GetAvarageRate([FromBody]IDRequest request)
+        //{
+        //    if (!ModelState.IsValid)
+        //        return Ok(ModelState);
+        //    var response = new BaseResponse<bool>();
+
+        //    decimal avarageRate = 0;
+
+        //    List<RecipeRate> ratedRecipe = new List<RecipeRate>();
+
+        //    ratedRecipe = rateRepo.GetBy(x => x.RecipeID == request.Id).ToList();
+
+        //    foreach(var item in ratedRecipe)
+        //    {
+
+        //        avarageRate += item.Rate;
+        //    }
+
+        //    avarageRate = avarageRate / ratedRecipe.Count();
+
+        //    response.Message = avarageRate.ToString().Substring(0,4);
+
+        //    return Ok(response);
+        //}
 
 
         [HttpPost]

@@ -46,63 +46,110 @@
 
         </form>
         <div class="col-md-1"></div>
-        <form class="col-md-3">
-            <div class="container">
-                <div class="row">
-                    <br />  <br /><br />
-                    <div class="col-md-3 text-center">
-                        <a class="btn btn-block btn-social btn-facebook">
-                            <span class="fa fa-facebook"></span>Facebook ile giriş yap
-                        </a>
-                    </div>
+
+        <div class="container">
+            <div class="row">
+                <br />  <br /><br />
+                <div class="col-md-3 text-center">
+                    <button @@click="loginWithFacebook" class="btn btn-success"><i class="fa fa-facebook"></i> Login With Facebook</button>
                 </div>
             </div>
-        </form>
+        </div>
+
 
     </div>
 </div>
 
 <script>
-var vm = new Vue({
-  el: '#loginForm',
-  data: function() {
-       return {
-           loading: false,
-           form: {
-                email: null,
-                password: null
-           },
-           response: {
-                hasError:false,
-                validationErrors:[],
-                message: null
-           }
-       }
-  },
-    methods: {
-        login() {
-            this.loading = true;
-            axios.post("login/signin", this.form).then((res) => {
-                this.response = res.data;
+    var vm = new Vue({
+        el: '#loginForm',
+        data: function () {
+            return {
+                loading: false,
+                form: {
+                    email: null,
+                    password: null
+                },
+                response: {
+                    hasError: false,
+                    validationErrors: [],
+                    message: null
+                },
+                response2: {
+                    status: 'connected',
+                    authResponse: {
+                        accessToken: null,
+                        expiresIn: null,
+                        signedRequest: null,
+                        userID: null
+                    }
+                }
+            }
+        },
+        methods: {
+            login() {
+                this.loading = true;
+                axios.post("login/signin", this.form).then((res) => {
+                    this.response = res.data;
 
-                if(res.data.hasError)
-                {
+                    if (res.data.hasError) {
 
-                }else
-                {
-                    var token = res.data.data.token
-                    axios.defaults.headers.common['Authorization'] = "Bearer "+ token;
-                    localStorage.setItem("token","Bearer "+ token)
+                    } else {
+                        var token = res.data.data.token
+                        axios.defaults.headers.common['Authorization'] = "Bearer " + token;
+                        localStorage.setItem("token", "Bearer " + token)
 
-                    axios.post('account/get').then((res) => {
-                        localStorage.setItem("user", JSON.stringify(res.data.data))
-                        window.location.href="/home"
+                        axios.post('account/get').then((res) => {
+                            localStorage.setItem("user", JSON.stringify(res.data.data))
+                            window.location.href = "/home"
+                        })
+
+
+                    }
+                    this.loading = false;
+                })
+            },
+            loginWithFacebook() {
+                FB.login(function (res) {
+                    var facebooktoken = res.authResponse.accessToken;
+
+                    axios.post('login/facebook', { facebooktoken }).then((res) => {
+                        var token = res.data.data.token
+                        axios.defaults.headers.common['Authorization'] = "Bearer " + token;
+                        localStorage.setItem("token", "Bearer " + token)
+
+                        axios.post('account/get').then((res) => {
+                            localStorage.setItem("user", JSON.stringify(res.data.data))
+                            window.location.href = "/home"
+                        })
+
                     })
 
+                }, { scope: 'public_profile,email' });
 
-                }
-    this.loading=false;
-            })
+                
+            }
+
         }
-    }
-})</script>
+    })
+    window.fbAsyncInit = function () {
+        FB.init({
+            appId: '1112107155635637',
+            cookie: true,
+            xfbml: true,
+            version: 'v3.3'
+        });
+
+        FB.AppEvents.logPageView();
+
+    };
+
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) { return; }
+        js = d.createElement(s); js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
+

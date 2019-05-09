@@ -7,9 +7,9 @@ using System.Text;
 
 namespace HepsiSef.Repository.App.Repository
 {
-    public class ContactRepositor : BaseRepository<Contact>, IContactRepository
+    public class ContactRepository : BaseRepository<Contact>, IContactRepository
     {
-        public ContactRepositor(ApplicationContext context) : base(context)
+        public ContactRepository(ApplicationContext context) : base(context)
         {
 
         }

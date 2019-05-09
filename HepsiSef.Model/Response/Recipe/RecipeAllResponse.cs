@@ -29,6 +29,9 @@ namespace HepsiSef.Model.Response.Recipe
         public string Username { get;  set; }
         public DateTime CreateDate { get; set; }
         public List<ImageMM> Images { get; set; }
+        public List<RateMM> Rates { get; set; }
+        public int Rate { get; set; }
+        public decimal AvarageRate { get; set; }
 
     }
 
@@ -37,5 +40,11 @@ namespace HepsiSef.Model.Response.Recipe
         public Guid Id { get; set; }
         public string Image { get; set; }
     }
-   
+
+    public class RateMM
+    {
+        public Guid Id { get; set; }
+        public decimal Rate { get; set; }
+    }
+
 }

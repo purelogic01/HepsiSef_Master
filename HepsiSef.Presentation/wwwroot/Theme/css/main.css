@@ -6611,3 +6611,19 @@ div.widget-measurements .default-btn {
     border-bottom: 1px solid #c9d6bf;
   }
 }
+
+#loginControl .dropdown-menu {
+    position: absolute;
+    top: 41px;
+    right: 17px;
+    z-index: 9;
+    background: #fff;
+    padding: 0px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,.1);
+    display: none;
+    transition: 1s;
+}
+
+#loginControl .open .dropdown-menu {
+    display: block;
+}

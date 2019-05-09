@@ -26,8 +26,9 @@ namespace HepsiSef.Model.Response.Recipe
             public int CookingTime { get; set; }
             public string Username { get; set; }
             public DateTime CreateDate { get; set; }
+            public decimal AvarageRate { get; set; }
 
-            public List<ImageMMM> Images { get; set; }
+        public List<ImageMMM> Images { get; set; }
             public List<IngredientMMM> Ingredients { get; set; }
             public List<StepMMMM> Steps { get; set; }
         }
