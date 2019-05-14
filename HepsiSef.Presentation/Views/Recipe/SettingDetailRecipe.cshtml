@@ -627,12 +627,12 @@ var vm = new Vue({
       }
     },
     beforeMount() {
-        axios.post('http://localhost:5005/api/recipe/detail', { slug: '@ViewContext.HttpContext.Request.Query["slug"]' }).then((res) => {
+        axios.post('recipe/detail', { slug: '@ViewContext.HttpContext.Request.Query["slug"]' }).then((res) => {
             this.form = res.data.data;
             console.log(this.form)
 
         })
-        axios.post('http://localhost:5005/api/category/all', { searchTerm: '' }).then((res) => {
+        axios.post('category/all', { searchTerm: '' }).then((res) => {
             this.categories = res.data.data.items;
         })
     }

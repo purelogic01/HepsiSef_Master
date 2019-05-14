@@ -26,7 +26,7 @@
 
             }
         }, beforeMount() {
-            axios.post('http://localhost:5005/api/category/all', { searchTerm: '' }).then((res) => {
+            axios.post('category/all', { searchTerm: '' }).then((res) => {
                 this.categories = res.data.data.items;
             })
 

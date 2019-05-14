@@ -190,9 +190,22 @@ namespace HepsiSef.API.Controllers
             return Ok(response);
         }
 
+        [HttpPost]
+        public IActionResult Random()
+        {
+            var response = new BaseResponse<CategoryAllResponse>();
 
-        
+            response.Data = new CategoryAllResponse();
 
+            List<Category> CategoryList = new List<Category>();
 
+            CategoryList = categoryRepo.GetAll();
+
+            var list = CategoryList.PickRandom(6);
+
+            response.Data.Items = list.ToList();
+
+            return Ok(response);
+        }
     }
 }

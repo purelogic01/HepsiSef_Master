@@ -113,10 +113,11 @@
 
                                 </ul>
                             </div>
-                            <div class="col-md-10"></div>
-                            <div class="col-md-2,meta-listing" >
+                            <div class="col-md-8"></div>
+                            <div class="col-md-4,meta-listing" >
                                 <ul class="post-meta">
                                     <li class="author"><a href="#">{{data.username}}</a></li>
+                                    <li  > <a class="el-icon-s-flag" @@click="changeBookmark(data.id)" href="#">| İşaretle</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -145,9 +146,14 @@
 
              }
          },
+         methods: {
+             changeBookmark(id) {
+                 axios.post("recipe/togglebookmark", { id })
+             }
+         },
 
          beforeMount() {
-             axios.post('http://localhost:5005/api/recipe/detail', { slug: '@ViewContext.HttpContext.Request.Query["slug"]' }).then((res) => {
+             axios.post('recipe/detail', { slug: '@ViewContext.HttpContext.Request.Query["slug"]' }).then((res) => {
                  this.data = res.data.data;
 
 

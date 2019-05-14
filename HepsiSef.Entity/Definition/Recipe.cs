@@ -18,6 +18,7 @@ namespace HepsiSef.Entity.Definition
         public int Calories { get; set; }
         public int PrepareTime { get; set; }
         public int CookingTime { get; set; }
+        public decimal AvarageRate { get; set; }
 
         //RELATIONSHIPS        
         public virtual User User { get; set; }

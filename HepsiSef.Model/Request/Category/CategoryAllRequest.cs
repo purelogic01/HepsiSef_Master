@@ -6,9 +6,6 @@ namespace HepsiSef.Model.Request.Category
 {
     public class CategoryAllRequest
     {
-
-
-        public string SearchTerm { get; set; }
-
+         public string SearchTerm { get; set; }
     }
 }

@@ -92,14 +92,23 @@
                     <li class="calendar">{{recipe.createDate}}</li>
                 </ul>
                 <div class="rating-box">
-                    <el-rate v-model="recipe.rate"
-                             @@change="addRate($event,recipe.id)"
-                             :texts="['oops', 'disappointed', 'normal', 'good', 'great']"
-                             show-text>
+                    <el-rate v-model="recipe.avarageRate"
+                             disabled
+                             show-score
+                             text-color="#ff9900"
+                             :score-template="recipe.avarageRate + '/5'">
                     </el-rate>
 
-                    <div> {{recipe.avarageRate}}/5 </div>
-                </div>
+                    <el-rate v-model="recipe.rate"
+                             @@change="addRate($event,recipe.id)"
+                             :texts="['oops', 'hayalkırıklığı', 'idare eder', 'iyi', 'muazzam']"
+                             show-text>
+                    </el-rate>
+                
+                    <ul  class="post-meta"><li><a class="el-icon-s-flag " @@click="changeBookmark(recipe.id)">| İşaretle</a></li> </ul>  
+
+
+</div>
                 
 
             </div>
@@ -148,12 +157,12 @@
                             this.$message.success(res.data.message);
                         }
                     })
-                }//,
-                //showRate() {
-                //    axios.post("recipe/getavaragerate", { id: item.recipeid } )
-                //}
+                },
+                changeBookmark(id) {
+                    axios.post("recipe/togglebookmark", { id })
+                }
             }, beforeMount() {
-                axios.post('http://localhost:5005/api/category/all', { searchTerm: '' }).then((res) => {
+                axios.post('category/all', { searchTerm: '' }).then((res) => {
                     this.categories = res.data.data.items;
                 })
 

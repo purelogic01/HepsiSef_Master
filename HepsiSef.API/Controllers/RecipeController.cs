@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -341,36 +342,62 @@ namespace HepsiSef.API.Controllers
 
             rateRepo.Add(item);
             response.Message = "Değerlendirme başarıyla eklendi";
+            decimal avarageRate = 0;
+            List<RecipeRate> ratedRecipe = new List<RecipeRate>();
+            ratedRecipe = rateRepo.GetBy(x => x.RecipeID == request.RecipeID).ToList();
+            foreach (var aa in ratedRecipe)
+            {
+
+                avarageRate += aa.Rate;
+            }
+
+            avarageRate = avarageRate / ratedRecipe.Count();
+            var ChangeAvarageRate = recipeRepo.FirstOrDefaultBy(x => x.Id == request.RecipeID);
+
+            ChangeAvarageRate.AvarageRate = avarageRate;
+
+            recipeRepo.Update(ChangeAvarageRate);
+            
+                
 
             return Ok(response);
         }
 
-        //[HttpPost]
-        //public IActionResult GetAvarageRate([FromBody]IDRequest request)
-        //{
-        //    if (!ModelState.IsValid)
-        //        return Ok(ModelState);
-        //    var response = new BaseResponse<bool>();
+        [HttpPost]
+        public IActionResult MostRatedRecipe()
+        {
+            var response = new BaseResponse<RecipeAllResponse>();
+            response.Data = new RecipeAllResponse();
 
-        //    decimal avarageRate = 0;
+           
 
-        //    List<RecipeRate> ratedRecipe = new List<RecipeRate>();
+            response.Data.Items = recipeRepo.GetBy(x => true).OrderByDescending(x => x.AvarageRate).Take(2).Select(x => new RecipeMM
+            {
+                Id = x.Id,
+                Title = x.Title,
+                Details = x.Details,
+                Images = (x.Images.Any(y => y.RecordStatus == RecordStatus.Active) ? x.Images.Where(y => y.RecordStatus == RecordStatus.Active).Select(y => new ImageMM
+                {
+                    Id = y.Id,
+                    Image = y.Image
+                }).ToList() : new List<ImageMM>()),
+                Rates = (x.Rates.Any(y => y.RecordStatus == RecordStatus.Active) ? x.Rates.Where(y => y.RecordStatus == RecordStatus.Active).Select(y => new RateMM
+                {
+                    Id = y.Id,
+                    Rate = y.Rate
+                }).ToList() : new List<RateMM>()),
+                Slug = x.Slug,
+                UserID = x.UserID,
+                Username = x.User.Username,
+                CreateDate = x.CreateDate,
+                Rate = 0,
+                AvarageRate = x.AvarageRate
 
-        //    ratedRecipe = rateRepo.GetBy(x => x.RecipeID == request.Id).ToList();
 
-        //    foreach(var item in ratedRecipe)
-        //    {
+            }).ToList();
 
-        //        avarageRate += item.Rate;
-        //    }
-
-        //    avarageRate = avarageRate / ratedRecipe.Count();
-
-        //    response.Message = avarageRate.ToString().Substring(0,4);
-
-        //    return Ok(response);
-        //}
-
+            return Ok(response);
+        }
 
         [HttpPost]
         [Authorize]
@@ -378,9 +405,9 @@ namespace HepsiSef.API.Controllers
         {
             var response = new BaseResponse<bool>();
 
-            var control = bookMarkRepo.FirstOrDefaultBy(x => x.UserID == CurrentUserID && x.RecipeID == request.Id);
+            var control = bookMarkRepo.FirstOrDefaultBy(x => x.UserID == CurrentUserID && x.RecipeID == request.Id  );
 
-            if (control != null)
+            if (control != null )
             {
                 bookMarkRepo.Delete(control);
             }
@@ -473,7 +500,58 @@ namespace HepsiSef.API.Controllers
             return Ok(response);
         }
 
-        
+        [HttpPost]
+        public IActionResult Search([FromBody]SearchRecipe request)
+        {
+            var response = new BaseResponse<RecipeAllResponse>();
+            response.Data = new RecipeAllResponse();
 
-    }
+            var query = recipeRepo.GetBy(x => true);
+
+            if (!string.IsNullOrWhiteSpace(request.SearchTerm) && request.SearchTerm.Length >= 3)
+            {
+                query = recipeRepo.GetBy(x => x.Title.Contains(request.SearchTerm) || x.Slug.Contains(request.SearchTerm));
+
+                response.Data.Items = query.OrderByDescending(p => p.CreateDate).Take(10).Select(p => new RecipeMM
+                {
+                    Id = p.Id,
+                    Title = p.Title,
+                    Details = p.Details,
+                    Images = (p.Images.Any(y => y.RecordStatus == RecordStatus.Active) ? p.Images.Where(y => y.RecordStatus == RecordStatus.Active).Select(y => new ImageMM
+                    {
+                        Id = y.Id,
+                        Image = y.Image
+                    }).ToList() : new List<ImageMM>()),
+                    Rates = (p.Rates.Any(y => y.RecordStatus == RecordStatus.Active) ? p.Rates.Where(y => y.RecordStatus == RecordStatus.Active).Select(y => new RateMM
+                    {
+                        Id = y.Id,
+                        Rate = y.Rate
+                    }).ToList() : new List<RateMM>()),
+
+
+
+                    Slug = p.Slug,
+                    UserID = p.UserID,
+                    Username = p.User.Username,
+                    CreateDate = p.CreateDate,
+                    Rate = 0,
+                    AvarageRate = p.Rates.Any(y => y.RecipeID == p.Id) ? p.Rates.Average(y => y.Rate) : 0
+
+
+                }).ToList();
+
+
+
+
+
+                return Ok(response);
+            }
+            else
+                return NotFound(); 
+
+                
+                    
+        }
+
+      }
 }

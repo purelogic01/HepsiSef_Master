@@ -21,5 +21,10 @@ namespace HepsiSef.Presentation.Controllers
         {
             return View();
         }
+        public IActionResult ToggleBookmark()
+        {
+            return View();
+        }
+        
     }
 }

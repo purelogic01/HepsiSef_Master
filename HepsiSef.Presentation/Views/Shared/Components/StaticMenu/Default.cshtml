@@ -57,6 +57,7 @@
                                             <span class="caret"></span>
                                         </a>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                            <li><a href="#" v-if="loggedIn" @@click="toggleBookmark">İşaretlenen Tarifler </a></li>
                                             <li><a href="#" v-if="LoginAdmin && loggedIn" @@click="settingsCategory">Kategori ayarları</a></li>
                                             <li><a href="#" v-if="LoginAdmin && loggedIn" @@click="settingRecipe"> Tarif Ayarları </a></li>
                                             <li><a href="#" v-if="loggedIn" @@click="signout">Çıkış</a></li>
@@ -165,6 +166,9 @@ var vm = new Vue({
         },settingRecipe(){
             this.loading = true;
              window.location.href = '@Url.Action("SettingRecipe", "Recipe")'
+        }, toggleBookmark() {
+            this.loading = true;
+             window.location.href = '@Url.Action("ToggleBookmark", "Recipe")'
         }
     }
 })</script>
