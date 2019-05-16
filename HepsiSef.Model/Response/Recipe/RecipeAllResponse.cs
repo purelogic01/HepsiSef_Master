@@ -23,6 +23,7 @@ namespace HepsiSef.Model.Response.Recipe
         public string Title { get; set; }
         public string Details { get; set; }
         public Guid UserID { get; set; }
+        public List<CategoryMM> CategoryInfo { get; set; }
         public string Slug { get; set; }
         public int ServiceCount { get; set; }
         public int PrepareTime { get; set; }
@@ -33,6 +34,12 @@ namespace HepsiSef.Model.Response.Recipe
         public int Rate { get; set; }
         public decimal AvarageRate { get; set; }
 
+    }
+
+    public class CategoryMM
+    {
+        public string Title { get; set; }
+        public string Slug { get; set; }
     }
 
     public class ImageMM

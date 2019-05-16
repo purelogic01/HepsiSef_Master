@@ -201,7 +201,7 @@ namespace HepsiSef.API.Controllers
 
             CategoryList = categoryRepo.GetAll();
 
-            var list = CategoryList.PickRandom(6);
+            var list = CategoryList.PickRandom(5);
 
             response.Data.Items = list.ToList();
 

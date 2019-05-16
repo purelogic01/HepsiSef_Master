@@ -94,7 +94,8 @@
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     <script src="https://unpkg.com/vue-select@latest"></script>
@@ -131,10 +132,13 @@
     </main>
 
 
-    <footer  @*class="footer footer-variant-one footer-fluid"*@>
+    <footer @*class="footer footer-variant-one footer-fluid" *@>
+       
         <div class="container">
+            @*<img src="https://cdn.yemek.com/assets/images/category/tarif-kategorisi-banner.jpg" />*@
             <div class="footer-inner">
                 <div class="text-center">
+
                     <a class="logo-footer wow animated zoomIn" href=@Url.Action("Index","Home")><img src="/Theme/images/logo2.png" alt="Logo" /></a>
                     <p class="wow animated flipInX">
                         Hepsi Şef, eğlenceli komün yemek sistemidir. Hepsi Şef üzerinde bulunan profesyonellere sorular sorabilir,
@@ -145,33 +149,31 @@
                 </div>
 
                 <div class="subs-social-options">
+
                     <div class="row custom-row-footer">
-                        <div class="col-md-4 custom-col-options">
+
+                        <div class="col-md-6 custom-col-options">
                             <div class="left-side">
                                 <h2 class="wow animated fadeInLeft">E-Bülten</h2>
                                 <div class="widget widget-footer news-letter-signup wow animated flipInY">
 
 
-                                    <form class="subs-form" action="#" method="post">
+                                    <form class="subs-form"  method="post" id="submitNewsLetter">
                                         <div class="email-field">
-                                            <input type="email" name="email" placeholder="E-Bültene üye olmak için lütfen mail adresinizi giriniz" />
-                                            <button><i class="fa fa-paper-plane-o"></i></button>
+                                            <input v-model="form.email" type="email" class="form-control" name="email" id="email"
+                                                   placeholder="E-Bültene üye olmak için lütfen email adresinizi giriniz">
+                                            <p v-if="response.validationErrors.some(x => x.key == 'email')">
+                                                {{ response.validationErrors.find(x => x.key == 'email').value }}
+                                            </p>
+                                            <button @@click="add"><i class="fa fa-paper-plane-o"></i></button>
                                         </div>
                                     </form>
                                 </div>
                             </div>
 
                         </div>
-                        <div class="col-md-4 custom-col-options">
-                            <h2 class="wow animated fadeIn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Site Haritası</h2>
-                            <ul Class="footer-links">
-                                <li class="wow animated bounceInRight animation-delay100ms"><a href=@Url.Action("Index","Home")>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Anasayfa</a></li>
-                                <li class="wow animated bounceInRight animation-delay200ms"><a href=@Url.Action("RecipeDetail","Home")>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tarifler</a></li>
-                                <li class="wow animated bounceInRight animation-delay300ms"><a href=@Url.Action("SubmitRecipe","Home")>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tarif Gönder</a></li>
-                                <li class="wow animated bounceInRight animation-delay400ms"><a href=@Url.Action("Contact","Home")>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;İletişim</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-md-4">
+
+                        <div class="col-md-6">
                             <div class="right-side">
                                 <h2 class="wow animated fadeInRight">Sosyal Medya</h2>
                                 <div class="widget widget-footer social-icons">
@@ -187,15 +189,15 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
                 <div class="footer-copyright text-center wow animated flipInX">
                     <p> Hepsi Şef © 2016 Published by Internative.@*<a href="#">Majestic Themes</a>*@</p>
                 </div>
                 @*<div class="corner-image wow animated fadeInRight">
-                    <img src="/Theme/images/footer-corner-image.jpg" alt="image" />
-                </div>*@
+                <img src="/Theme/images/footer-corner-image.jpg" alt="image" />
+            </div>*@
             </div>
         </div>
     </footer>
@@ -220,3 +222,43 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </body>
 </html>
+
+<script>
+
+    var vm = new Vue({
+        el: '#submitNewsLetter',
+        data: function () {
+            return {
+                loading: false,
+                form: {
+                    Email: null
+                },
+                response: {
+                    hasError: false,
+                    validationErrors: [],
+                    message: null
+                }
+
+            }
+        },
+        methods: {
+            add() {
+                this.loading = true
+
+                axios.post("contact/newsletter", this.form).then((res) => {
+                    this.response = res.data;
+
+                    if (res.data.hasError) {
+                        swal('Hata', res.data.message, 'error')
+                    }
+                    else {
+                        swal('Basarili', res.data.message, 'success')
+                        this.form.email = "";
+                    }
+
+                })
+            }
+        }
+    })
+
+</script>

@@ -110,6 +110,7 @@ namespace HepsiSef.API
                 services.AddScoped<IForgatPasswordRepository, ForgatPasswordRepository>();
                 services.AddScoped<IContactRepository, ContactRepository>();
                 services.AddScoped<IExternalLoginRepository, ExternalLoginRepository>();
+                services.AddScoped<INewsletterRepository, NewsletterRepository>();
 
                 services.AddCors(options =>
                 {

@@ -1,0 +1,67 @@
+﻿<d iv id="CategoryPage">
+    <div class="listing" v-for="(recipe, index) in items">
+        <div class="image">
+            <a href="#">
+                <img :src="recipe.images[0].image" alt="image" />
+            </a>
+        </div>
+        <div class="detail">
+            <h4><a href="#">{{recipe.title}}</a></h4>
+            <p>
+                {{recipe.details}}
+            </p>
+            <div class="meta-listing">
+                <ul class="post-meta">
+                    <li class="author"><a href="#">{{recipe.username}}</a></li>
+                    <li class="calendar">{{recipe.createDate}}</li>
+                </ul>
+                <div class="rating-box">
+                    <el-rate v-model="recipe.avarageRate"
+                             disabled
+                             show-score
+                             text-color="#ff9900"
+                             :score-template="recipe.avarageRate + '/5'">
+                    </el-rate>
+
+                    <el-rate v-model="recipe.rate"
+                             @@change="addRate($event,recipe.id)"
+                             :texts="['oops', 'hayalkırıklığı', 'idare eder', 'iyi', 'muazzam']"
+                             show-text>
+                    </el-rate>
+
+                    <ul class="post-meta"><li><a class="el-icon-s-flag " @@click="changeBookmark(recipe.id)">| İşaretle</a></li> </ul>
+
+
+                </div>
+
+
+            </div>
+            <span class="arrow-nav right-arrow"><a :href="'/home/detail?slug=' + recipe.slug">Detayları gör</a><i class="fa fa-angle-right"></i></span>
+        </div>
+    </div>
+</div>
+
+<script>
+    var vm = new Vue({
+        el: '#CategoryPage',
+        data: function () {
+            return {
+                loading: false,
+                filter: {
+                    category: null,
+                    serviceCount: null,
+                    cookingTime: null,
+                    slug: '@ViewContext.HttpContext.Request.Query["slug"]',
+                    searchTerm: null,
+                    skip: 0
+                },
+                items:[]
+            }
+        },
+        beforeMount() {
+            axios.post('recipe/all', this.filter ).then((res) => {
+                this.items = res.data.data.items;
+            })
+        }
+    })
+</script>

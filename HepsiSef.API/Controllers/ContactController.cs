@@ -4,6 +4,7 @@ using HepsiSef.Model;
 using HepsiSef.Model.Base;
 using HepsiSef.Model.Helpers;
 using HepsiSef.Model.Request.Contact;
+using HepsiSef.Model.Request.NewsLetter;
 using HepsiSef.Model.Response;
 using HepsiSef.Model.Response.Contact;
 using HepsiSef.Repository.App.Interface;
@@ -24,14 +25,17 @@ namespace HepsiSef.API.Controllers
     {
         private readonly IContactRepository contactRepo;
         private readonly IUserRepository userRepo;
+        private readonly INewsletterRepository newsletterRepo;
 
         public ContactController(
-            IContactRepository contactRepo, 
-            IUserRepository userRepo
+            IContactRepository contactRepo,
+            IUserRepository userRepo,
+            INewsletterRepository newsletterRepo
             )
         {
             this.contactRepo = contactRepo;
             this.userRepo = userRepo;
+            this.newsletterRepo = newsletterRepo;
         }
 
 
@@ -76,12 +80,43 @@ namespace HepsiSef.API.Controllers
                 MailManager.Send(MailBody, mail.Email);
             }
 
-
-
             return Ok(response);
-
         }
 
+        [AllowAnonymous]
+        [HttpPost]
+        public IActionResult NewsLetter([FromBody]AddRequest request)
+        {
+            if (!ModelState.IsValid)
+                return Ok(ModelState);
+
+            var response = new BaseResponse<Guid>();
+
+            var item = new Newsletter
+            {
+               Email = request.Email,
+            };
+
+            newsletterRepo.Add(item);
+            response.Message = "Kayıt başarıyla eklenmiştir.";
+            response.Data = item.Id;
+
+            var MailBody = "HepsiSef bize ulaşın + E-Bülten" + "\n "  + " " + item.Email + "\n" ;
+
+            List<AdminMailMM> Admins = new List<AdminMailMM>();
+            Admins = userRepo.GetBy(x => x.Role == Role.Admin).Select(x => new AdminMailMM
+            {
+                Email = x.Email
+
+            }).ToList();
+
+            foreach (var mail in Admins)
+            {
+                MailManager.Send(MailBody, mail.Email);
+            }
+
+            return Ok(response);
+        }
     }
 }
 

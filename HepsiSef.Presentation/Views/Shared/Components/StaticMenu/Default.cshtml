@@ -1,51 +1,23 @@
 ﻿
-<header>
 
-    <div class="header header-var1 fade-load-down">
-        <div class="responsive-menu"></div>
-        <div class="nav-var1">
+
+    <header>
+        <div class="header header-main header-var2 fade-load-down fadeInDown">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-5">
-
-                        <div class="left-nav">
-                            <nav class="nav-collapse">
-                                <ul class="main-menu left">
-                                    <li>
-                                        <a href=@Url.Action("Index","Home")>Anasayfa</a>
-
-                                    </li>
-                                    <li>
-                                        <a href="recipe-listing.html">Recent Recipes</a>
-                                        <ul>
-                                            <li><a href="recipe-listing.html">recipe listing list view</a></li>
-                                            <li><a href="recipe-listing-grid.html">recipe listing grid view</a></li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href=@Url.Action("RecipeDetail","Home")>Tarifler</a>
-
-                                    </li>
-                                    <li><a href=@Url.Action("Chefs","Home")>Chefs</a></li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-
-                    <div class="col-md-2">
+                    <div class="col-lg-2">
                         <div class="logo-wrapper">
-                            <a href=@Url.Action("Index","Home")><img src="/Theme/images/logo.png" alt="logo" /></a>
+                            <a href=@Url.Action("Index","Home")><img src="/Theme/images/logo.png" alt="logo"></a>
                         </div>
                     </div>
-                    <div class="col-md-5">
-                        <div class="right-nav">
+                    <div class="col-lg-10">
+                        <div class="outer-nav">
                             <div class="wrapper-links">
                                 <ul class="header-social-icons">
                                     <li><a href="#"><i class="fa fa-facebook"></i></a></li>
                                     <li><a href="#"><i class="fa fa-twitter"></i></a></li>
                                     <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
                                 </ul>
-
                                 <span id="loginControl" class="sign-in-buttons">
                                     <a v-if="!loggedIn" class="login" href=@Url.Action("Login","Login")>Login</a>
                                     <a v-if="!loggedIn" class="register" href=@Url.Action("Register","Login")>Register</a>
@@ -63,52 +35,36 @@
                                             <li><a href="#" v-if="loggedIn" @@click="signout">Çıkış</a></li>
                                         </ul>
                                     </div>
-
-
-
-
-                                    @*<el-dropdown :hide-on-click="false" v-if="loggedIn">
-                                            <span class="el-dropdown-link">
-                                                Ayarlar<i class="el-icon-arrow-down el-icon--right"></i>
-                                            </span>
-                                            <el-dropdown-menu slot="dropdown">
-                                                <el-dropdown-item v-if="LoginAdmin && loggedIn" @@click="settingsCategory">Kategori Ayarları</el-dropdown-item>
-                                                <el-dropdown-item v-if="LoginAdmin && loggedIn" @@click="settingRecipe" >Tarif Ayarları</el-dropdown-item>
-                                                <el-dropdown-item v-if="loggedIn" @@click="signout">Çıkış</el-dropdown-item>
-
-                                            </el-dropdown-menu>
-                                        </el-dropdown>*@
-
-
-                                    @*<button v-if="loggedIn" @@click="signout" type="button" class="btn btn-primary">Çıkış</button>
-                                        <span>
-                                            <button v-if="LoginAdmin && loggedIn" @@click="settingsCategory" type="button" class="btn btn-primary">Kategori ayarları</button>
-                                        </span>
-                                        <span>
-                                            <button v-if="LoginAdmin && loggedIn" @@click="settingRecipe" type="button" class="btn btn-primary">Tarif ayarları</button>
-                                        </span>*@
                                 </span>
+                            </div>
+                            <div class="wrapper-main-nav ">
+                                <nav class="nav-collapse responsive-menu">
+                                    <ul class="main-menu">
+                                        <li>
+                                            <a href=@Url.Action("Index","Home")>Anasayfa</a>
+                                         </li>
+                                        <li>
+                                            <a href=@Url.Action("RecipeDetail","Home")>Tarifler</a>
+                                       </li>
+                                        <li>
+                                            <a href="#">Kategoriler</a>
+                                         </li>
+                                        <li><a href=@Url.Action("Contact","Home")>İletişim</a></li>
+                                      
+                                        
+                                        <li><a class="submit-recipe" href=@Url.Action("SubmitRecipe","Home")>Tarif Gönder</a></li>
+                                    </ul>
 
-
+                                </nav>
 
                             </div>
-
-                            <nav class="nav-collapse">
-                                <ul class="main-menu right">
-                                    <li><a href=@Url.Action("Blog","Home")>blog</a></li>
-                                    <li><a href=@Url.Action("Elements","Home")>elements</a></li>
-                                    <li><a href=@Url.Action("Contact","Home")>İletişim</a></li>
-                                    <li><a class="submit-recipe" href=@Url.Action("SubmitRecipe","Home")>Tarif Gönder</a></li>
-                                </ul>
-                            </nav>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
-    </div>
-</header>
+    </header>
+
 
 
 <script>
@@ -151,7 +107,7 @@ var vm = new Vue({
                     this.LoginAdmin = false;
                 }
             }
-            console.log(this.LoginAdmin)
+         
         }
     },
     methods: {
@@ -184,3 +140,8 @@ var vm = new Vue({
         font-size: 12px;
     }
 </style>
+
+
+
+
+

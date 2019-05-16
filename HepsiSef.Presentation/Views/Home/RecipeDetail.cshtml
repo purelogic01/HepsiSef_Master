@@ -9,6 +9,8 @@
 
         </div>
     </div>
+
+ 
     <div class="advance-search">
         <!--advance search form-->
 
@@ -60,12 +62,12 @@
 
                                 </div>
 
-                             
+
 
                             </div>
                         </fieldset>
 
-                       
+
 
                     </form>
                 </div>
@@ -74,45 +76,51 @@
 
         <!--advance search form ends-->
     </div>
+    <div>
+        <div class="col-md-10">
+            <div class="listing" v-for="(recipe, index) in items">
+                <div class="image">
+                    <a :href="'/home/detail?slug=' + recipe.slug">
+                        <img :src="recipe.images[0].image" alt="image" />
+                    </a>
+                </div>
+                <div class="detail">
+                    <h4><a :href="'/home/detail?slug=' + recipe.slug">{{recipe.title}}</a></h4>
+                    <p>
+                        {{recipe.details}}
+                    </p>
+                    <div class="meta-listing">
+                        <ul class="post-meta">
+                            <li class="author"><a href="#">{{recipe.username}}</a></li>
+                            <li class="calendar">{{recipe.createDate}}</li>
+                        </ul>
+                        <div class="rating-box">
+                            <el-rate v-model="recipe.avarageRate"
+                                     disabled
+                                     show-score
+                                     text-color="#ff9900"
+                                     :score-template="recipe.avarageRate + '/5'">
+                            </el-rate>
 
-    <div class="listing" v-for="(recipe, index) in items">
-        <div class="image">
-            <a href="#">
-                <img :src="recipe.images[0].image" alt="image" />
-            </a>
-        </div>
-        <div class="detail">
-            <h4><a href="#">{{recipe.title}}</a></h4>
-            <p>
-                {{recipe.details}}
-            </p>
-            <div class="meta-listing">
-                <ul class="post-meta">
-                    <li class="author"><a href="#">{{recipe.username}}</a></li>
-                    <li class="calendar">{{recipe.createDate}}</li>
-                </ul>
-                <div class="rating-box">
-                    <el-rate v-model="recipe.avarageRate"
-                             disabled
-                             show-score
-                             text-color="#ff9900"
-                             :score-template="recipe.avarageRate + '/5'">
-                    </el-rate>
+                            <el-rate v-model="recipe.rate"
+                                     @@change="addRate($event,recipe.id)"
+                                     :texts="['oops', 'hayalkırıklığı', 'idare eder', 'iyi', 'muazzam']"
+                                     show-text>
+                            </el-rate>
 
-                    <el-rate v-model="recipe.rate"
-                             @@change="addRate($event,recipe.id)"
-                             :texts="['oops', 'hayalkırıklığı', 'idare eder', 'iyi', 'muazzam']"
-                             show-text>
-                    </el-rate>
-                
-                    <ul  class="post-meta"><li><a class="el-icon-s-flag " @@click="changeBookmark(recipe.id)">| İşaretle</a></li> </ul>  
+                            <ul class="post-meta"><li><a class="el-icon-s-flag " @@click="changeBookmark(recipe.id)">| İşaretle</a></li> </ul>
 
 
-</div>
-                
+                        </div>
 
+
+                    </div>
+
+                </div>
             </div>
-            <span class="arrow-nav right-arrow"><a :href="'/home/detail?slug=' + recipe.slug">Detayları gör</a><i class="fa fa-angle-right"></i></span>
+        </div>
+        <div class="widget recipe-search; col-md-2">
+            @await Component.InvokeAsync("StaticCategory")
         </div>
     </div>
 </div>

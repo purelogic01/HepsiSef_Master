@@ -32,6 +32,7 @@ namespace HepsiSef.API.Controllers
         private readonly IRecipeRateRepository rateRepo;
         private readonly IBookmarkRepository bookMarkRepo;
         private readonly IRecipeCategoryRepository categoryRepo;
+        private readonly ICategoryRepository categoriesRepo;
         private readonly IUserRepository userRepo;
         private readonly IHostingEnvironment environment;
         private readonly IHttpContextAccessor accessor;
@@ -42,7 +43,8 @@ namespace HepsiSef.API.Controllers
             IStepRepository stepRepo,
             IRecipeImageRepository imageRepo,
             IRecipeRateRepository rateRepo,
-            IBookmarkRepository bookMarkRepo,
+            ICategoryRepository categoriesRepo,
+        IBookmarkRepository bookMarkRepo,
             IRecipeCategoryRepository categoryRepo,
             IUserRepository userRepo,
             IHostingEnvironment environment,
@@ -54,6 +56,7 @@ namespace HepsiSef.API.Controllers
             this.stepRepo = stepRepo;
             this.imageRepo = imageRepo;
             this.rateRepo = rateRepo;
+            this.categoriesRepo = categoriesRepo;
             this.bookMarkRepo = bookMarkRepo;
             this.categoryRepo = categoryRepo;
             this.userRepo = userRepo;
@@ -113,19 +116,24 @@ namespace HepsiSef.API.Controllers
         {
             var response = new BaseResponse<RecipeAllResponse>();
             response.Data = new RecipeAllResponse();
-            
-
+      
             var query = recipeRepo.GetBy(x => true);
+            if (request.Slug != null)
+            {
+                var query2 = categoriesRepo.GetBy(p => p.Slug == request.Slug).FirstOrDefault();
+                query = query.Where(x => x.RecipeCategories.Any(y => y.CategoryID == query2.Id));
+            }
 
-            if (request.CategoryID.HasValue)
+            if (request.CategoryID.HasValue )
                 query = query.Where(x => x.RecipeCategories.Any(y => y.CategoryID == request.CategoryID.Value));
 
-         
             if (request.CookingTime.HasValue)
                 query = query.Where(x => x.CookingTime <= request.CookingTime);
 
             if (request.ServiceCount.HasValue)
                 query = query.Where(x => x.ServiceCount == request.ServiceCount);
+            if (!string.IsNullOrWhiteSpace(request.SearchTerm) && request.SearchTerm.Length >= 3)
+                query = query.Where(x => x.Title.Contains(request.SearchTerm) || x.Slug.Contains(request.SearchTerm) || x.Details.Contains(request.SearchTerm));
 
             response.Data.Count = query.Count();
             response.Data.Items = query.OrderByDescending(x => x.CreateDate).Skip(request.Skip).Take(10).Select(x => new RecipeMM {
@@ -201,7 +209,7 @@ namespace HepsiSef.API.Controllers
         }
         
         [HttpPost]
-        [Authorize]
+        //[Authorize]
         public ActionResult Create([FromBody]RecipeCreateRequest request)
         {
 
@@ -369,13 +377,18 @@ namespace HepsiSef.API.Controllers
             var response = new BaseResponse<RecipeAllResponse>();
             response.Data = new RecipeAllResponse();
 
-           
+
 
             response.Data.Items = recipeRepo.GetBy(x => true).OrderByDescending(x => x.AvarageRate).Take(2).Select(x => new RecipeMM
             {
                 Id = x.Id,
                 Title = x.Title,
                 Details = x.Details,
+                CategoryInfo =x.RecipeCategories.Select(y=> new CategoryMM {
+                    Title = y.Category.Title,
+                    Slug = y.Category.Slug
+                }).ToList(),
+                    
                 Images = (x.Images.Any(y => y.RecordStatus == RecordStatus.Active) ? x.Images.Where(y => y.RecordStatus == RecordStatus.Active).Select(y => new ImageMM
                 {
                     Id = y.Id,
@@ -500,57 +513,39 @@ namespace HepsiSef.API.Controllers
             return Ok(response);
         }
 
+
+
         [HttpPost]
-        public IActionResult Search([FromBody]SearchRecipe request)
+        public IActionResult Random()
         {
             var response = new BaseResponse<RecipeAllResponse>();
+
             response.Data = new RecipeAllResponse();
 
-            var query = recipeRepo.GetBy(x => true);
-
-            if (!string.IsNullOrWhiteSpace(request.SearchTerm) && request.SearchTerm.Length >= 3)
+            response.Data.Items = recipeRepo.GetBy(x => true).OrderByDescending(x => x.AvarageRate).Take(30).Select(x => new RecipeMM
             {
-                query = recipeRepo.GetBy(x => x.Title.Contains(request.SearchTerm) || x.Slug.Contains(request.SearchTerm));
-
-                response.Data.Items = query.OrderByDescending(p => p.CreateDate).Take(10).Select(p => new RecipeMM
+                Id = x.Id,
+                Title = x.Title,
+                Details = x.Details,
+                Images = (x.Images.Any(y => y.RecordStatus == RecordStatus.Active) ? x.Images.Where(y => y.RecordStatus == RecordStatus.Active).Select(y => new ImageMM
                 {
-                    Id = p.Id,
-                    Title = p.Title,
-                    Details = p.Details,
-                    Images = (p.Images.Any(y => y.RecordStatus == RecordStatus.Active) ? p.Images.Where(y => y.RecordStatus == RecordStatus.Active).Select(y => new ImageMM
-                    {
-                        Id = y.Id,
-                        Image = y.Image
-                    }).ToList() : new List<ImageMM>()),
-                    Rates = (p.Rates.Any(y => y.RecordStatus == RecordStatus.Active) ? p.Rates.Where(y => y.RecordStatus == RecordStatus.Active).Select(y => new RateMM
-                    {
-                        Id = y.Id,
-                        Rate = y.Rate
-                    }).ToList() : new List<RateMM>()),
+                    Id = y.Id,
+                    Image = y.Image
+                }).ToList() : new List<ImageMM>()),
+                Rates = (x.Rates.Any(y => y.RecordStatus == RecordStatus.Active) ? x.Rates.Where(y => y.RecordStatus == RecordStatus.Active).Select(y => new RateMM
+                {
+                    Id = y.Id,
+                    Rate = y.Rate
+                }).ToList() : new List<RateMM>()),
+                Slug = x.Slug,
+                UserID = x.UserID,
+                Username = x.User.Username,
+                CreateDate = x.CreateDate,
+                Rate = 0,
+                AvarageRate = x.Rates.Any(y => y.RecipeID == x.Id) ? x.Rates.Average(y => y.Rate) : 0
+            }).ToList().Shuffle().Take(6).ToList();
 
-
-
-                    Slug = p.Slug,
-                    UserID = p.UserID,
-                    Username = p.User.Username,
-                    CreateDate = p.CreateDate,
-                    Rate = 0,
-                    AvarageRate = p.Rates.Any(y => y.RecipeID == p.Id) ? p.Rates.Average(y => y.Rate) : 0
-
-
-                }).ToList();
-
-
-
-
-
-                return Ok(response);
-            }
-            else
-                return NotFound(); 
-
-                
-                    
+            return Ok(response);
         }
 
       }

@@ -436,8 +436,8 @@ var vm = new Vue({
 
              var cats = [];
 
-             this.category.map((item) => {
-                cats.push({CategoryID: item.id})
+             this.form.categories.map((item) => {
+                cats.push({CategoryID: item})
              })
             axios.post("recipe/create", {
                 ...this.form,
@@ -497,8 +497,8 @@ var vm = new Vue({
         }
 
         },
-        handleChange() {
-
+        handleChange(a) {
+            this.form.categories = a;
         }
     },
     beforeMount() {

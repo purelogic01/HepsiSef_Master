@@ -25,6 +25,10 @@ namespace HepsiSef.Presentation.Controllers
         {
             return View();
         }
-        
+        public IActionResult ByCategory()
+        {
+            return View();
+        }
+
     }
 }
