@@ -11,6 +11,7 @@ namespace HepsiSef.Model.Response.Recipe
                 Images = new List<ImageMMM>();
                 Ingredients = new List<IngredientMMM>();
                 Steps = new List<StepMMMM>();
+                CategoryInfo = new List<CategoryMMM>();
 
             }
 
@@ -20,6 +21,7 @@ namespace HepsiSef.Model.Response.Recipe
             public string Details { get; set; }
             public Guid UserID { get; set; }
             public string Slug { get; set; }
+            public string VideoLink { get; set; }
             public int ServiceCount { get; set; }
             public int Calories { get; set; }
             public int PrepareTime { get; set; }
@@ -27,8 +29,8 @@ namespace HepsiSef.Model.Response.Recipe
             public string Username { get; set; }
             public DateTime CreateDate { get; set; }
             public decimal AvarageRate { get; set; }
-
-        public List<ImageMMM> Images { get; set; }
+            public List<CategoryMMM> CategoryInfo { get; set; }
+            public List<ImageMMM> Images { get; set; }
             public List<IngredientMMM> Ingredients { get; set; }
             public List<StepMMMM> Steps { get; set; }
         }
@@ -48,5 +50,10 @@ namespace HepsiSef.Model.Response.Recipe
             public Guid Id { get; set; }
             public string Title { get; set; }
         }
- }
+        public class CategoryMMM
+       {
+        public string Title { get; set; }
+        public string Slug { get; set; }
+        }
+}
 

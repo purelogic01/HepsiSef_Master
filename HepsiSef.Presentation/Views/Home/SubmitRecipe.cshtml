@@ -107,82 +107,86 @@
                                     <i class="fa fa-plus"></i>
                                 </span>
                             </fieldset>
-
-                            @*<label class="video-based-recipe">Video Based Recipe</label>
-        <br />
-        <label for="radio-yes">
-            <input class="radio-btn" id="radio-yes" type="radio" name="video-recipe" value="yes" checked /><span class="radio-text">yes</span>
-        </label>
-        <label for="radio-no">
-            <input class="radio-btn" id="radio-no" type="radio" name="video-recipe" value="no" /> <span class="radio-text">no</span>
-        </label>
-        <br />
-        <br />*@
-                            @*<label for="video-embed">Video Embed Code</label>
-        <textarea class="short-text" name="embed-code" id="video-embed" cols="30" rows="10"></textarea>*@
-
                             <div class="row">
-                                <div class="col-sm-6">
-                                    <label for="servings">Servis sayısı</label>
-                                    <input v-model="form.ServiceCount" type="number" min="1" max="9999" class="form-control" name="servings" id="servings" />
-                                    <p v-if="response.validationErrors.some(x => x.key == 'ServiceCount')">
-                                        {{ response.validationErrors.find(x => x.key == 'ServiceCount').value }}
-                                    </p>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label for="calories">Kalori</label>
-                                    <input v-model="form.Calories" type="number" class="form-control" min="1" max="98999" name="calories" id="calories" />
-                                </div>
-                                <p v-if="response.validationErrors.some(x => x.key == 'Calories')">
-                                    {{ response.validationErrors.find(x => x.key == 'Calories').value }}
+
+                                <label class="video-based-recipe">Video Based Recipe</label>
+                                <br />
+                                <label for="radio-yes">
+                                    <input class="radio-btn" id="radio-yes" type="radio" name="video-recipe" value="yes" checked /><span class="radio-text">yes</span>
+                                </label>
+                                <label for="radio-no">
+                                    <input class="radio-btn" id="radio-no" type="radio" name="video-recipe" value="no" /> <span class="radio-text">no</span>
+                                </label>
+                                <br />
+                                <br />
+                                <label for="video-embed">Video Embed Code</label>
+                                <textarea v-model="form.videoLink" class="short-text" name="embed-code" id="video-embed" cols="30" rows="10"></textarea>
+                                <p v-if="response.validationErrors.some(x => x.key == 'videoLink')">
+                                    {{ response.validationErrors.find(x => x.key == 'videoLink').value }}
                                 </p>
-
                             </div>
-
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <label for="prep-time"> Hazırlama süresi</label>
-                                    <input v-model="form.PrepareTime" type="text" name="prep-time" id="prep-time" />
-                                    <p v-if="response.validationErrors.some(x => x.key == 'PrepareTime')">
-                                        {{ response.validationErrors.find(x => x.key == 'PrepareTime').value }}
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label for="servings">Servis sayısı</label>
+                                        <input v-model="form.ServiceCount" type="number" min="1" max="9999" class="form-control" name="servings" id="servings" />
+                                        <p v-if="response.validationErrors.some(x => x.key == 'ServiceCount')">
+                                            {{ response.validationErrors.find(x => x.key == 'ServiceCount').value }}
+                                        </p>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="calories">Kalori</label>
+                                        <input v-model="form.Calories" type="number" class="form-control" min="1" max="98999" name="calories" id="calories" />
+                                    </div>
+                                    <p v-if="response.validationErrors.some(x => x.key == 'Calories')">
+                                        {{ response.validationErrors.find(x => x.key == 'Calories').value }}
                                     </p>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label for="cook-time">pişme süresi</label>
-                                    <input v-model="form.CookingTime" type="text" name="cook-time" id="cook-time" />
-                                    <p v-if="response.validationErrors.some(x => x.key == 'CookingTime')">
-                                        {{ response.validationErrors.find(x => x.key == 'CookingTime').value }}
-                                    </p>
-                                </div>
-                                @*<div class="col-sm-4">
-                <label for="ready-in">Ready In</label>
-                <input type="text" name="ready-in" id="ready-in" />
-            </div>*@
-                            </div>
-                            <div class="row">
-                                <div id="#submitRecipe">
-                                    <label for="recipe-type">Kategoriler</label>
 
-                                    @*<select v-for="(cat, catIndex) in categories" class="form-control" v-model="cats" multiple>
-                                        <option :value="item.id" v-for="(item, index) in cat">{{item.title}}</option>
-                                    </select>*@
-
-
-                                    <el-cascader :options="categories"
-                                                 v-model="form.categories"
-                                                 @@change="handleChange">
-                                    </el-cascader>
                                 </div>
 
-                            </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label for="prep-time"> Hazırlama süresi</label>
+                                        <input v-model="form.PrepareTime" type="text" name="prep-time" id="prep-time" />
+                                        <p v-if="response.validationErrors.some(x => x.key == 'PrepareTime')">
+                                            {{ response.validationErrors.find(x => x.key == 'PrepareTime').value }}
+                                        </p>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="cook-time">pişme süresi</label>
+                                        <input v-model="form.CookingTime" type="text" name="cook-time" id="cook-time" />
+                                        <p v-if="response.validationErrors.some(x => x.key == 'CookingTime')">
+                                            {{ response.validationErrors.find(x => x.key == 'CookingTime').value }}
+                                        </p>
+                                    </div>
+                                    @*<div class="col-sm-4">
+                    <label for="ready-in">Ready In</label>
+                    <input type="text" name="ready-in" id="ready-in" />
+                </div>*@
+                                </div>
+                                <div class="row">
+                                    <div id="#submitRecipe">
+                                        <label for="recipe-type">Kategoriler</label>
+
+                                        @*<select v-for="(cat, catIndex) in categories" class="form-control" v-model="cats" multiple>
+                        <option :value="item.id" v-for="(item, index) in cat">{{item.title}}</option>
+                    </select>*@
 
 
-                            @*<pre></pre>*@
+                                        <el-cascader :options="categories"
+                                                     v-model="form.categories"
+                                                     @@change="handleChange">
+                                        </el-cascader>
+                                    </div>
+
+                                </div>
 
 
-                            <div class="text-center">
-                                <button type="button" @@click="submitRecipe" class="recipe-submit-btn">Gönder</button>
-                            </div>
+                                @*<pre></pre>*@
+
+
+                                <div class="text-center">
+                                    <button type="button" @@click="submitRecipe" class="recipe-submit-btn">Gönder</button>
+                                </div>
                         </form>
                     </div>
                 </div>
@@ -410,6 +414,7 @@ var vm = new Vue({
                 Calories : null,
                 PrepareTime: null,
                 CookingTime: null,
+                VideoLink: null,
                 Images:[],
                 Ingredients:[{Title:''}],
                 Steps:[{Title:''}],
@@ -464,6 +469,7 @@ var vm = new Vue({
                         this.form.PrepareTime= "";
                         this.form.CookingTime = "";
                         this.form.Ingredients = "";
+                        this.form.VideoLink = "";
 
                     })
 

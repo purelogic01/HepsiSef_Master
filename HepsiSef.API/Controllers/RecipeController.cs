@@ -99,10 +99,17 @@ namespace HepsiSef.API.Controllers
                     Title = y.Title
                 }).ToList() : new List<StepMMMM>()),
 
+                CategoryInfo = x.RecipeCategories.Select(y => new CategoryMMM
+                {
+                    Title = y.Category.Title,
+                    Slug = y.Category.Slug
+                }).ToList(),
+
                 PrepareTime = x.PrepareTime,
                 ServiceCount = x.ServiceCount,
                 Slug = x.Slug,
                 UserID = x.UserID,
+                VideoLink = x.VideoLink,
                 Username = x.User.Username,
                 CreateDate = x.CreateDate,
                 AvarageRate = x.Rates.Any(y => y.RecipeID == x.Id) ? x.Rates.Average(y => y.Rate) : 0
@@ -136,7 +143,7 @@ namespace HepsiSef.API.Controllers
                 query = query.Where(x => x.Title.Contains(request.SearchTerm) || x.Slug.Contains(request.SearchTerm) || x.Details.Contains(request.SearchTerm));
 
             response.Data.Count = query.Count();
-            response.Data.Items = query.OrderByDescending(x => x.CreateDate).Skip(request.Skip).Take(10).Select(x => new RecipeMM {
+            response.Data.Items = query.OrderByDescending(x => x.CreateDate).Skip(request.Skip).Take(3).Select(x => new RecipeMM {
                 Id = x.Id,
                 Title = x.Title,
                 Details = x.Details,
@@ -151,7 +158,7 @@ namespace HepsiSef.API.Controllers
                 }).ToList() : new List<RateMM>()),
 
 
-
+                VideoLink = x.VideoLink,
                 Slug = x.Slug,
                 UserID = x.UserID,
                 Username = x.User.Username,
@@ -234,6 +241,7 @@ namespace HepsiSef.API.Controllers
                 Calories = request.Calories,
                 PrepareTime = request.PrepareTime,
                 CookingTime = request.CookingTime,
+                VideoLink = request.VideoLink,
                 Ingredients = request.Ingredients.Select(y => new RecipeIngredient
                 {
                     Title = y.Title
@@ -512,8 +520,6 @@ namespace HepsiSef.API.Controllers
             response.Message = "Kayıt başarıyla güncellenmiştir.";
             return Ok(response);
         }
-
-
 
         [HttpPost]
         public IActionResult Random()

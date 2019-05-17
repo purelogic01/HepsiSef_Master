@@ -19,6 +19,7 @@ namespace HepsiSef.Entity.Definition
         public int PrepareTime { get; set; }
         public int CookingTime { get; set; }
         public decimal AvarageRate { get; set; }
+        public string VideoLink { get; set; }
 
         //RELATIONSHIPS        
         public virtual User User { get; set; }
@@ -28,5 +29,6 @@ namespace HepsiSef.Entity.Definition
         public virtual IList<RecipeRate> Rates { get; set; }
         public virtual IList<RecipeImage> Images { get; set; }
         public virtual IList<Bookmark> Bookmarks { get; set; }
+        public virtual IList<Comment> Comments { get; set; }
     }
 }

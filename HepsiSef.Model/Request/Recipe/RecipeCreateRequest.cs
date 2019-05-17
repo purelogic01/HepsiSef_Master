@@ -20,6 +20,7 @@ namespace HepsiSef.Model.Request.Recipe
         public int Calories { get; set; }
         public int PrepareTime { get; set; }
         public int CookingTime { get; set; }
+        public string VideoLink { get; set; }
 
         public List<Ingredient> Ingredients { get; set; }
         public List<Step> Steps { get; set; }

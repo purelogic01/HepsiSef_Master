@@ -111,6 +111,7 @@ namespace HepsiSef.API
                 services.AddScoped<IContactRepository, ContactRepository>();
                 services.AddScoped<IExternalLoginRepository, ExternalLoginRepository>();
                 services.AddScoped<INewsletterRepository, NewsletterRepository>();
+                services.AddScoped<ICommentRepository, CommentRepository>();
 
                 services.AddCors(options =>
                 {

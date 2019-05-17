@@ -10,7 +10,7 @@
         </div>
     </div>
 
- 
+
     <div class="advance-search">
         <!--advance search form-->
 
@@ -30,7 +30,7 @@
 
                                 <div class="form-field">
                                     <label for="category">Kategori</label><br />
-                                    <el-select v-model="filter.category" placeholder="Kategori Sec" clearable>
+                                    <el-select v-model="filter.categoryID" placeholder="Kategori Sec" clearable>
                                         <el-option v-for="item in categories"
                                                    :key="item.id"
                                                    :label="item.title"
@@ -77,116 +77,227 @@
         <!--advance search form ends-->
     </div>
     <div>
-        <div class="col-md-10">
-            <div class="listing" v-for="(recipe, index) in items">
-                <div class="image">
-                    <a :href="'/home/detail?slug=' + recipe.slug">
-                        <img :src="recipe.images[0].image" alt="image" />
-                    </a>
-                </div>
-                <div class="detail">
-                    <h4><a :href="'/home/detail?slug=' + recipe.slug">{{recipe.title}}</a></h4>
-                    <p>
-                        {{recipe.details}}
-                    </p>
-                    <div class="meta-listing">
-                        <ul class="post-meta">
-                            <li class="author"><a href="#">{{recipe.username}}</a></li>
-                            <li class="calendar">{{recipe.createDate}}</li>
-                        </ul>
-                        <div class="rating-box">
-                            <el-rate v-model="recipe.avarageRate"
-                                     disabled
-                                     show-score
-                                     text-color="#ff9900"
-                                     :score-template="recipe.avarageRate + '/5'">
-                            </el-rate>
+        <div class="recipes-home-body inner-page">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-lg-9">
+                        <div class="recipe-set">
+                            <div class="listing-buttons">
+                                <span class="grid "><i class="fa fa-th-large"></i></span>
+                                <span class="list current"><i class="fa fa-bars"></i></span>
+                            </div>
+                            <h2>Tarifler</h2>
 
-                            <el-rate v-model="recipe.rate"
-                                     @@change="addRate($event,recipe.id)"
-                                     :texts="['oops', 'hayalkırıklığı', 'idare eder', 'iyi', 'muazzam']"
-                                     show-text>
-                            </el-rate>
-
-                            <ul class="post-meta"><li><a class="el-icon-s-flag " @@click="changeBookmark(recipe.id)">| İşaretle</a></li> </ul>
+                            <div class="recipe-listing listing-list">
 
 
+                                <div class="listing" v-for="(recipe, index) in items">
+                                    <div class="image" height="207" width="263">
+                                        <a :href="'/home/detail?slug=' + recipe.slug">
+                                            <img :src="recipe.images[0].image" height="207" width="263" alt="image" />
+                                        </a>
+                                    </div>
+                                    <div class="detail">
+                                        <h4><a :href="'/home/detail?slug=' + recipe.slug">{{recipe.title}}</a></h4>
+                                        <p>
+                                            {{recipe.details}}
+                                        </p>
+                                        <div class="meta-listing">
+                                            <ul class="post-meta">
+                                                <li class="author"><a href="#">{{recipe.username}}</a></li>
+                                                <li class="calendar">{{recipe.createDate}}</li>
+                                            </ul>
+                                            <div class="rating-box">
+                                                <el-rate v-model="recipe.avarageRate"
+                                                         disabled
+                                                         show-score
+                                                         text-color="#ff9900"
+                                                         :score-template="recipe.avarageRate + '/5'">
+                                                </el-rate>
+
+                                                <el-rate v-model="recipe.rate"
+                                                         @@change="addRate($event,recipe.id)"
+                                                         :texts="['oops', 'hayalkırıklığı', 'idare eder', 'iyi', 'muazzam']"
+                                                         show-text>
+                                                </el-rate>
+
+                                                <ul class="post-meta"><li><a class="el-icon-s-flag " @@click="changeBookmark(recipe.id)">| İşaretle</a></li> </ul>
+
+
+                                            </div>
+
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+                            <!--recipe of the day-->
+                            <!--recipe of the day ends-->
+
+                            <ul class="page-nav">
+                               
+                             
+                                    <el-pagination background
+			                                        @@size-change="handleSizeChange"
+			                                        @@current-change="handleCurrentChange"
+			                                        :current-page.sync="filter.currentpage"
+			                                        :page-sizes="[3]"
+			                                        :page-size="3"
+			                                        layout="total, prev, pager, next, jumper"
+			                                        :total="count">
+                                    </el-pagination>
+                             </ul>
+
+                            <div class="banner-header text-center">
+                                <a href="#">
+                                    <img src="/Theme/images/temp-images/header-banner.jpg" alt="banner">
+                                </a>
+                            </div>
                         </div>
-
-
                     </div>
+                    <div class="col-md-4 col-lg-3">
+                        <aside>
+                            <div class="side-bar">
+                                <!--recipes search widget-->
+                                <div class="widget recipe-search">
 
+                                    <div class="category-list">
+                                        @await Component.InvokeAsync("StaticCategory")
+                                    </div>
+                                </div>
+                                <!--recipes search widget ends-->
+                                <!--popular recipes widget-->
+                                <!--popular recipes widget ends-->
+                                <div class="widget">
+                                    <a href="#">
+                                        <img src="/Theme/images/temp-images/add-side.jpg" alt="Add" />
+                                    </a>
+                                </div>
+                                <!--latest news widget-->
+                                <!--latest news widget ends-->
+                                <!--get social-->
+                                <div class="widget widget-get-social">
+                                    <h2>get social</h2>
+                                    <ul>
+                                        <li class="facebook">
+                                            <a href="#">
+                                                <i class="fa fa-facebook"></i>
+                                                <span class="count">23.5K</span>
+                                                <span class="count-type">Likes</span>
+                                            </a>
+                                        </li>
+                                        <li class="twitter">
+                                            <a href="#">
+                                                <i class="fa fa-twitter"></i>
+                                                <span class="count">23.5K</span>
+                                                <span class="count-type">Likes</span>
+                                            </a>
+                                        </li>
+                                        <li class="google-plus">
+                                            <a href="#">
+                                                <i class="fa fa-google-plus"></i>
+                                                <span class="count">23.5K</span>
+                                                <span class="count-type">Likes</span>
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                                <!--get social ends-->
+                            </div>
+                        </aside>
+                    </div>
                 </div>
+
             </div>
-        </div>
-        <div class="widget recipe-search; col-md-2">
-            @await Component.InvokeAsync("StaticCategory")
+
         </div>
     </div>
+
+
+
 </div>
 
 
 
-    <script>
-        Vue.component('v-select', VueSelect.VueSelect)
 
-        var vm = new Vue({
-            el: '#CategoryPage',
-            data: function () {
-                return {
-                    loading: false,
-                    user: {},
-                    categories: [],
-                    filter: {
-                        category: null,
-                        serviceCount: null,
-                        cookingTime: null,
-                        skip: 0
-                    },
-                    items: []
+<script>
+    Vue.component('v-select', VueSelect.VueSelect)
 
-                }
-            },
-
-            methods: {
-                CallRecipe() {
-                    axios.post("recipe/all", this.filter).then((res) => {
-
-                        this.items = res.data.data.items;
-                    })
-                },
-                addRate(rate, id, oldRate) {
-
-                    axios.post("recipe/addrate", { recipeid: id, rate }).then((res) => {
-                        if (res.data.hasError) {
-                            this.$message.error(res.data.message)
-                        }
-                        else {
-                            this.$message.success(res.data.message);
-                        }
-                    })
-                },
-                changeBookmark(id) {
-                    axios.post("recipe/togglebookmark", { id })
-                }
-            }, beforeMount() {
-                axios.post('category/all', { searchTerm: '' }).then((res) => {
-                    this.categories = res.data.data.items;
-                })
-
-                axios.post("recipe/all", { filter: null }).then((res) => {
-
-                        this.items = res.data.data.items;
-                    })
-                
-            },
-            watch: {
+    var vm = new Vue({
+        el: '#CategoryPage',
+        data: function () {
+            return {
+                loading: false,
+                user: {},
+                categories: [],
+                count: 0,
                 filter: {
-                    handler: function () {
-                        this.CallRecipe()
-                    },
-                    deep: true
-                }
+                    categoryID: null,
+                    serviceCount: null,
+                    cookingTime: null,
+                    skip: 0,
+                    currentPage: 1
+                },
+                items: []
+
             }
-        })</script>
+        },
+
+        methods: {
+            handleSizeChange(val) {
+                this.filter.skip = val;
+                console.log(`${val} items per page`);
+            },
+            handleCurrentChange(val) {
+
+                this.filter.skip = (val - 1) * 3;
+                console.log(`current page: ${val}`);
+
+            },
+            CallRecipe() {
+                axios.post("recipe/all", this.filter).then((res) => {
+                    this.count = res.data.data.count;
+                    this.items = res.data.data.items;
+                })
+            },
+            addRate(rate, id, oldRate) {
+
+                axios.post("recipe/addrate", { recipeid: id, rate }).then((res) => {
+                    if (res.data.hasError) {
+                        this.$message.error(res.data.message)
+                    }
+                    else {
+                        this.$message.success(res.data.message);
+                    }
+                })
+            },
+            changeBookmark(id) {
+                axios.post("recipe/togglebookmark", { id })
+            }
+        }, beforeMount() {
+            axios.post('category/all', { searchTerm: '' }).then((res) => {
+                this.categories = res.data.data.items;
+            })
+
+            axios.post("recipe/all", { filter: null }).then((res) => {
+
+                this.items = res.data.data.items;
+            })
+
+        },
+        watch: {
+            filter: {
+                handler: function () {
+                    this.CallRecipe()
+                },
+                deep: true
+            }
+        }
+    })</script>
 

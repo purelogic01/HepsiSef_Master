@@ -28,6 +28,7 @@ namespace HepsiSef.Model.Response.Recipe
         public int ServiceCount { get; set; }
         public int PrepareTime { get; set; }
         public string Username { get;  set; }
+        public string VideoLink { get; set; }
         public DateTime CreateDate { get; set; }
         public List<ImageMM> Images { get; set; }
         public List<RateMM> Rates { get; set; }

@@ -1,5 +1,27 @@
-﻿<div id="detailPage" class="recipes-home-body inner-page">
-    <div class="container" v-if="data != null">
+﻿<div class="preloader">
+    <div class="loadr">
+        <svg viewbox="0 0 74.6 81">
+            <path d="M67.8,12.9C51.7,5.2,26.2,0.2,26.2,0.2c-10.9-1.8-9.3,11.4-9,20.2c0,0.7,0.1,1.4,0.1,2c7.8,1.5,19.7,4,29.2,7.4c11.4,4.1,9.6,8.3,9.2,16c-0.2,4.9-0.4,14,1.1,21.3c7.7,1.4,13.8,1.9,13.1-0.3c-6.3-7.2-0.1-29.6,1.8-34.2C73.3,28.7,79.3,18.4,67.8,12.9z">      </path>
+            <path d="M58.9,79.5c-6.5-5.6-6.2-23.6-5.8-31.3c0.4-7.7,2.1-11.9-9.2-16c-15.3-5.5-37.3-8.8-37.3-8.8c-9.1-1.1-6.6,8.4-5.5,15.1c1.7,10,5.4,22,7.9,27.8c2.8,6.5,8.9,7.3,8.9,7.3S65.4,85.1,58.9,79.5z"></path>
+        </svg>
+    </div>
+</div>
+<!--pre-loader ends-->
+
+<!--banner-->
+<div class="banner banner-blog">
+    <div class="container ">
+        <div class="main-heading">
+            <h1>Tarif Detay</h1>
+        </div>
+
+    </div>
+</div>
+
+
+<!--banner ends-->
+<div class="recipes-home-body inner-page"  id="detailPage">
+    <div class="container">
         <div class="row">
             <div class="col-md-8 col-lg-9">
                 <div class="recipe-set ">
@@ -11,64 +33,77 @@
                                     <div class="rating-box">
                                         <el-rate v-model="data.avarageRate"
                                                  disabled
+                                                 disabled
                                                  show-score
                                                  text-color="#ff9900"
-                                                 :score-template="data.avarageRate + '/5'">
+                                                 :score-template="'(' + data.avarageRate + '/5)'">
                                         </el-rate>
-                                      @*<span class="rating-figure">({{data.avarageRate}} / 5)</span>*@
+                                        <el-rate v-model="data.rate"
+                                                 @@change="addRate($event,recipe.id)"
+                                                 :texts="['oops', 'hayalkırıklığı', 'idare eder', 'iyi', 'muazzam']"
+                                                 show-text>
+                                        </el-rate>
                                     </div>
                                 </div>
-                                @*<div class="recipe-media">
-                                    <a class="button-dark watch-video swipebox" href="https://vimeo.com/15306847">Watch Video</a>
-                                </div>*@
+                                <div class="recipe-media">
+                                    <a class="button-dark watch-video swipebox" :href="data.videoLink">Watch Video</a>
+                                </div>
                             </div>
 
                             <div class="slider-recipe-detail">
                                 <div class="wrapper-slider-detail">
                                     <div class="top-slider">
                                         <div id="single-slider-flex" class="flexslider slider-detail">
-                                            <ul class="slider">
-                                                <li v-for="(image,index) in data.images">
-                                                    <a rel="recipe-slider-1" href="recipe.images.image" class="swipebox">
+                                            <ul class="slides" v-for="(image, index) in data.images">
+                                                <li>
+                                                    <a rel="recipe-slider-1" href="/Theme/images/temp-images/slide-recipe-detail.jpg" class="swipebox">
                                                         <img :src="image.image" alt="Recipe Single Image" />
                                                     </a>
                                                 </li>
-                                            </ul>
-                                        </div>
-
-                                    </div>
-                                    @*<div id="recipe-slider-carousel">
-                                        <div id="recipe-carousel-flex">
-                                            <ul class="slides">
-                                                <li><img src="images/temp-images/slider-detail-thumb.jpg" alt="Recipe Carousel Thumbnail" /></li>
-                                                <li><img src="images/temp-images/slider-detail-thumb.jpg" alt="Recipe Carousel Thumbnail" /></li>
-                                                <li><img src="images/temp-images/slider-detail-thumb.jpg" alt="Recipe Carousel Thumbnail" /></li>
-                                                <li><img src="images/temp-images/slider-detail-thumb.jpg" alt="Recipe Carousel Thumbnail" /></li>
-                                                <li><img src="images/temp-images/slider-detail-thumb.jpg" alt="Recipe Carousel Thumbnail" /></li>
-                                                <li><img src="images/temp-images/slider-detail-thumb.jpg" alt="Recipe Carousel Thumbnail" /></li>
+                                              
                                             </ul>
                                         </div>
                                         <span class="custom-arrows wider">
                                             <span class="left-arrow slick-arrow" data-direction="prev" style="display: table-cell;"><i class="fa fa-arrow-left"></i></span>
                                             <span class="right-arrow slick-arrow" data-direction="next" style="display: table-cell;"><i class="fa fa-arrow-right"></i></span>
                                         </span>
-                                    </div>*@
+                                    </div>
+                                    <div id="recipe-slider-carousel">
+                                        @*<div id="recipe-carousel-flex">
+                                            <ul class="slides">
+                                                <li><img src="/Theme/images/temp-images/slider-detail-thumb.jpg" alt="Recipe Carousel Thumbnail" /></li>
+                                                <li><img src="/Theme/images/temp-images/slider-detail-thumb.jpg" alt="Recipe Carousel Thumbnail" /></li>
+                                                <li><img src="/Theme/images/temp-images/slider-detail-thumb.jpg" alt="Recipe Carousel Thumbnail" /></li>
+                                                <li><img src="/Theme/images/temp-images/slider-detail-thumb.jpg" alt="Recipe Carousel Thumbnail" /></li>
+                                                <li><img src="/Theme/images/temp-images/slider-detail-thumb.jpg" alt="Recipe Carousel Thumbnail" /></li>
+                                                <li><img src="/Theme/images/temp-images/slider-detail-thumb.jpg" alt="Recipe Carousel Thumbnail" /></li>
+                                            </ul>
+                                        </div>*@
+                                        <span class="custom-arrows wider">
+                                            <span class="left-arrow slick-arrow" data-direction="prev" style="display: table-cell;"><i class="fa fa-arrow-left"></i></span>
+                                            <span class="right-arrow slick-arrow" data-direction="next" style="display: table-cell;"><i class="fa fa-arrow-right"></i></span>
+                                        </span>
+                                    </div>
                                 </div>
                                 <ul class="recipe-specs">
-                               
-                                    <li><span class="count">{{data.cookingTime}}</span><span class="text">Pişme Süresi:</span></li>
-                                    <li><span class="count">{{data.prepareTime}}<span></span></span><span class="text">Hazırlama Süresi:</span></li>
-                                    <li><span class="count">{{data.serviceCount}}<span></span></span><span class="text">Servis Sayısı:</span></li>
-                                    @*<li><span class="count">{{data.prepareTime}}+{{data.cookingTime}}<span></span></span><span class="text">Hazırlanma Süresi:</span></li>*@
+                                    
+                                    <li><span class="count">{{data.serviceCount}}</span><span class="text">Servis Sayısı</span></li>
+                                    <li><span class="count">{{data.prepareTime}}<span>dk</span></span><span class="text">Hazırlama Süresi</span></li>
+                                    <li><span class="count">{{data.cookingTime}}<span>dk</span></span><span class="text">Pişme Süresi</span></li>
+                                    <li><span class="count">{{data.prepareTime + data.cookingTime}}<span>dk</span></span><span class="text">Yemeye Hazır</span></li>
                                 </ul>
                             </div>
                         </div>
 
 
                         <div class="recipe-detail-body">
-                            @*<a href="#" class="print-button"><i class="fa fa-print"></i>Print Recipe</a>*@
+                            <a href="#" class="print-button"><i class="fa fa-print"></i>Print Recipe</a>
 
-
+                            <ul class="pre-tags">
+                                <li><span>Cuisine : </span>Chinese</li>
+                                <li><span>Course : </span>Side Dish</li>
+                                <li><span>Skill Level : </span>Advanced</li>
+                            </ul>
                             <div class="separator-post"></div>
                             <p>
                                 {{data.details}}
@@ -78,95 +113,706 @@
                                 <div class="ingredients">
                                     <h3>Malzemeler</h3>
                                     <ul>
-                                        <li v-for="(item,index) in data.ingredients">
+                                        <li v-for="(ing, index) in data.ingredients">
                                             <label>
                                                 <input type="checkbox" />
-                                                {{item.title}}
+                                                {{ing.title}}
                                             </label>
                                         </li>
 
 
                                     </ul>
                                 </div>
+                                <div class="nutritional">
+                                    <h3>Nutritional</h3>
+                                    <div class="nutrition-detail">
+                                        <div class="left-box">
+                                            Protine
+                                            <br />
+                                            <span>6.60g</span>
+                                        </div>
+                                        <div class="right-box">
+                                            Fat Saturated
+                                            <br />
+                                            <span>39.5g</span>
+                                        </div>
+                                    </div>
+                                    <div class="separator-post"></div>
+                                    <div class="nutrition-detail">
+                                        <div class="left-box">
+                                            Deitary Fiber
+                                            <br />
+                                            <span>50g</span>
+                                        </div>
+                                        <div class="right-box">
+                                            Sodium
+                                            <br />
+                                            <span>10g</span>
+                                        </div>
+                                    </div>
+                                    <div class="separator-post"></div>
+                                    <div class="nutrition-detail">
+                                        <div class="left-box">
+                                            Fat Total
+                                            <br />
+                                            <span>60g</span>
+                                        </div>
+                                        <div class="right-box">
+                                            Carbohydrate
+                                            <br />
+                                            <span>0</span>
+                                        </div>
+                                    </div>
+                                    <div class="separator-post"></div>
+                                    <div class="nutrition-detail">
+                                        <div class="left-box">
+                                            Energy
+                                            <br />
+                                            <span>900mg</span>
+                                        </div>
+                                        <div class="right-box">
+                                            Cholesterol
+                                            <br />
+                                            <span>80g</span>
+                                        </div>
+                                    </div>
 
+                                </div>
                             </div>
-
+                            @*<div class="step-image">
+                                <a href="/Theme/images/temp-images/slide-recipe-detail.jpg" rel="recipe-slider-1" class="swipebox">
+                                    <img src="/Theme/images/temp-images/step1.jpg"
+                                         alt="image" />
+                                </a>
+                            </div>*@
                             <div class="recipe-steps">
-                                <h3 class="lined">Hazırlama Aşamaları</h3>
-                                <ul class="steps-list">
-                                    <li v-for="(item,index) in data.steps">
+                                <h3 class="lined">Adımlar</h3>
+                                <ul class="steps-list" v-for="(step, index) in data.steps">
+                                    <li>
                                         <div class="step-single">
-                                            @*<div class="step-image">
-                            <a href="images/temp-images/slide-recipe-detail.jpg" rel="recipe-slider-1" class="swipebox">
-                                <img src="images/temp-images/step1.jpg"
-                                     alt="image" />
-                            </a>
-                        </div>*@
+
                                             <div class="step-detail">
-                                                <h3></h3>
+                                                @{int i = 1;}
+                                                <h3>Adım @i </h3>
                                                 <p>
-                                                    {{item.title}}
+                                                    {{step.title}}
                                                 </p>
+                                                @{i++;}
                                             </div>
                                         </div>
                                     </li>
 
+
                                 </ul>
                             </div>
-                            <div class="col-md-8"></div>
-                            <div class="col-md-4,meta-listing" >
-                                <ul class="post-meta">
-                                    <li class="author"><a href="#">{{data.username}}</a></li>
-                                    <li  > <a class="el-icon-s-flag" @@click="changeBookmark(data.id)" href="#">| İşaretle</a></li>
+
+                            <div class="tips-variations">
+                                <h3>Tips & variations</h3>
+                                <ul>
+                                    <li>
+                                        <p>
+                                            Rinse the chicken pieces in cold water and pat dry. Place the chicken in a large, resealable zip-top bag
+                                            and pour in the marinade. Toss the chicken inside the bag to cover.
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <p>
+                                            Rinse the chicken pieces in cold water and pat dry. Place the chicken in a large, resealable zip-top bag
+                                            and pour in the marinade.
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <p>
+                                            Rinse the chicken pieces in cold water and pat dry. Place the chicken in a large, resealable zip-top bag
+                                            and pour in the marinade. Toss the chicken inside the bag to cover.
+                                        </p>
+                                    </li>
                                 </ul>
+                            </div>
+
+                            <div class="separator-post"></div>
+                            <div class="tags-icons">
+                                <div class="row">
+                                    <div class="col-sm-7">
+                                        @*<div class="details-tags">
+                    <ul>
+                      <li><a href="#">garlic</a></li>
+                      <li><a href="#">pizza</a></li>
+                      <li><a href="#">potato</a></li>
+                      <li><a href="#">roasted</a></li>
+                    </ul>
+                         </div>*@
+                                        <div class="details-tags">
+                                            <ul v-for="(category, index) in data.categoryInfo">
+                                                <li><a :href="'/recipe/bycategory?slug=' + category.slug">{{category.title}}</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <div class="details-social-icons">
+                                            <ul>
+                                                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-plus"></i></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+
+                        
+
+                        @*<div class="related-recipes">
+                            <h3 class="lined">Related Recipes</h3>
+                            <div class="boxed-recipes text-center">
+                                <!--single recipe-->
+                                <div class="recipe-single">
+                                    <div class="recipe-image">
+                                        <a href="#"><img src="images/temp-images/main-recipe1.jpg" alt="image"></a>
+                                    </div>
+                                    <div class="outer-detail">
+                                        <div class="detail">
+                                            <h3>
+                                                <a href="#">
+                                                    Pasto Pizza with fillas
+                                                    Cheese Toppings
+                                                </a>
+                                            </h3>
+
+                                            <div class="short-separator"></div>
+                                            <div class="rating-box">
+                                           
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--single recipe ends-->
+                                <!--single recipe-->
+                                <div class="recipe-single">
+                                    <div class="recipe-image">
+                                        <a href="#"><img src="images/temp-images/main-recipe2.jpg" alt="image"></a>
+                                    </div>
+                                    <div class="outer-detail">
+                                        <div class="detail">
+                                            <h3>
+                                                <a href="#">
+                                                    Pasto Pizza with fillas
+                                                    Cheese Toppings
+                                                </a>
+                                            </h3>
+                                            <div class="short-separator"></div>
+                                            <div class="rating-box">
+                                                <span class="rating-icons">
+                                                    <svg class="icon-container" width="25" height="19" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 19">
+
+                                                        <g>
+                                                            <title>background</title>
+                                                            <rect fill="none" height="21" width="27" y="-1" x="-1" />
+                                                        </g>
+                                                        <g>
+                                                            <title>Layer 1</title>
+                                                            <path class="icon-svg" d="m24.671816,17.625433c0,0.438 -0.286999,0.801001 -0.681,0.935001c-0.095001,0.036999 -0.198002,0.064999 -0.318001,0.064999l-16.000998,0c-0.553,0 -1,-0.448 -1,-1c0,-0.553999 0.447,-1 1,-1l14.950999,0c-0.500999,-5.053999 -4.764997,-9 -9.950999,-9c-5.523,0 -10,4.477001 -10,10c0,0 0.063,1 -1,1c-1.062,0 -1,-1 -1,-1c0,-5.769999 4.071,-10.581999 9.495001,-11.734999c-0.306002,-0.52 -0.495001,-1.117001 -0.495001,-1.765001c0,-1.933999 1.566999,-3.499999 3.5,-3.499999c1.931999,0 3.499,1.567 3.499,3.499999c0,0.739 -0.232998,1.423 -0.624998,1.989c4.984999,1.459 8.625998,6.056 8.625998,11.511l0,0zm-11.499,-15c-0.828999,0 -1.500999,0.670001 -1.500999,1.499001c0,0.827999 0.672001,1.5 1.500999,1.5c0.828001,0 1.499001,-0.672001 1.499001,-1.5c0,-0.829 -0.671,-1.499001 -1.499001,-1.499001l0,0z" clip-rule="evenodd" fill-rule="evenodd" />
+                                                        </g>
+                                                    </svg>
+                                                </span>
+                                                <span class="rating-icons">
+                                                    <svg class="icon-container" width="25" height="19" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 19">
+
+                                                        <g>
+                                                            <title>background</title>
+                                                            <rect fill="none" height="21" width="27" y="-1" x="-1" />
+                                                        </g>
+                                                        <g>
+                                                            <title>Layer 1</title>
+                                                            <path class="icon-svg" d="m24.671816,17.625433c0,0.438 -0.286999,0.801001 -0.681,0.935001c-0.095001,0.036999 -0.198002,0.064999 -0.318001,0.064999l-16.000998,0c-0.553,0 -1,-0.448 -1,-1c0,-0.553999 0.447,-1 1,-1l14.950999,0c-0.500999,-5.053999 -4.764997,-9 -9.950999,-9c-5.523,0 -10,4.477001 -10,10c0,0 0.063,1 -1,1c-1.062,0 -1,-1 -1,-1c0,-5.769999 4.071,-10.581999 9.495001,-11.734999c-0.306002,-0.52 -0.495001,-1.117001 -0.495001,-1.765001c0,-1.933999 1.566999,-3.499999 3.5,-3.499999c1.931999,0 3.499,1.567 3.499,3.499999c0,0.739 -0.232998,1.423 -0.624998,1.989c4.984999,1.459 8.625998,6.056 8.625998,11.511l0,0zm-11.499,-15c-0.828999,0 -1.500999,0.670001 -1.500999,1.499001c0,0.827999 0.672001,1.5 1.500999,1.5c0.828001,0 1.499001,-0.672001 1.499001,-1.5c0,-0.829 -0.671,-1.499001 -1.499001,-1.499001l0,0z" clip-rule="evenodd" fill-rule="evenodd" />
+                                                        </g>
+                                                    </svg>
+                                                </span>
+                                                <span class="rating-icons">
+                                                    <svg class="icon-container" width="25" height="19" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 19">
+
+                                                        <g>
+                                                            <title>background</title>
+                                                            <rect fill="none" height="21" width="27" y="-1" x="-1" />
+                                                        </g>
+                                                        <g>
+                                                            <title>Layer 1</title>
+                                                            <path class="icon-svg" d="m24.671816,17.625433c0,0.438 -0.286999,0.801001 -0.681,0.935001c-0.095001,0.036999 -0.198002,0.064999 -0.318001,0.064999l-16.000998,0c-0.553,0 -1,-0.448 -1,-1c0,-0.553999 0.447,-1 1,-1l14.950999,0c-0.500999,-5.053999 -4.764997,-9 -9.950999,-9c-5.523,0 -10,4.477001 -10,10c0,0 0.063,1 -1,1c-1.062,0 -1,-1 -1,-1c0,-5.769999 4.071,-10.581999 9.495001,-11.734999c-0.306002,-0.52 -0.495001,-1.117001 -0.495001,-1.765001c0,-1.933999 1.566999,-3.499999 3.5,-3.499999c1.931999,0 3.499,1.567 3.499,3.499999c0,0.739 -0.232998,1.423 -0.624998,1.989c4.984999,1.459 8.625998,6.056 8.625998,11.511l0,0zm-11.499,-15c-0.828999,0 -1.500999,0.670001 -1.500999,1.499001c0,0.827999 0.672001,1.5 1.500999,1.5c0.828001,0 1.499001,-0.672001 1.499001,-1.5c0,-0.829 -0.671,-1.499001 -1.499001,-1.499001l0,0z" clip-rule="evenodd" fill-rule="evenodd" />
+                                                        </g>
+                                                    </svg>
+                                                </span>
+                                                <span class="rating-icons">
+                                                    <svg class="icon-container" width="25" height="19" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 19">
+
+                                                        <g>
+                                                            <title>background</title>
+                                                            <rect fill="none" height="21" width="27" y="-1" x="-1" />
+                                                        </g>
+                                                        <g>
+                                                            <title>Layer 1</title>
+                                                            <path class="icon-svg" d="m24.671816,17.625433c0,0.438 -0.286999,0.801001 -0.681,0.935001c-0.095001,0.036999 -0.198002,0.064999 -0.318001,0.064999l-16.000998,0c-0.553,0 -1,-0.448 -1,-1c0,-0.553999 0.447,-1 1,-1l14.950999,0c-0.500999,-5.053999 -4.764997,-9 -9.950999,-9c-5.523,0 -10,4.477001 -10,10c0,0 0.063,1 -1,1c-1.062,0 -1,-1 -1,-1c0,-5.769999 4.071,-10.581999 9.495001,-11.734999c-0.306002,-0.52 -0.495001,-1.117001 -0.495001,-1.765001c0,-1.933999 1.566999,-3.499999 3.5,-3.499999c1.931999,0 3.499,1.567 3.499,3.499999c0,0.739 -0.232998,1.423 -0.624998,1.989c4.984999,1.459 8.625998,6.056 8.625998,11.511l0,0zm-11.499,-15c-0.828999,0 -1.500999,0.670001 -1.500999,1.499001c0,0.827999 0.672001,1.5 1.500999,1.5c0.828001,0 1.499001,-0.672001 1.499001,-1.5c0,-0.829 -0.671,-1.499001 -1.499001,-1.499001l0,0z" clip-rule="evenodd" fill-rule="evenodd" />
+                                                        </g>
+                                                    </svg>
+                                                </span>
+                                                <span class="rating-icons">
+                                                    <svg class="icon-container" width="25" height="19" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 19">
+
+                                                        <g>
+                                                            <title>background</title>
+                                                            <rect fill="none" height="21" width="27" y="-1" x="-1" />
+                                                        </g>
+                                                        <g>
+                                                            <title>Layer 1</title>
+                                                            <path class="icon-svg" d="m24.671816,17.625433c0,0.438 -0.286999,0.801001 -0.681,0.935001c-0.095001,0.036999 -0.198002,0.064999 -0.318001,0.064999l-16.000998,0c-0.553,0 -1,-0.448 -1,-1c0,-0.553999 0.447,-1 1,-1l14.950999,0c-0.500999,-5.053999 -4.764997,-9 -9.950999,-9c-5.523,0 -10,4.477001 -10,10c0,0 0.063,1 -1,1c-1.062,0 -1,-1 -1,-1c0,-5.769999 4.071,-10.581999 9.495001,-11.734999c-0.306002,-0.52 -0.495001,-1.117001 -0.495001,-1.765001c0,-1.933999 1.566999,-3.499999 3.5,-3.499999c1.931999,0 3.499,1.567 3.499,3.499999c0,0.739 -0.232998,1.423 -0.624998,1.989c4.984999,1.459 8.625998,6.056 8.625998,11.511l0,0zm-11.499,-15c-0.828999,0 -1.500999,0.670001 -1.500999,1.499001c0,0.827999 0.672001,1.5 1.500999,1.5c0.828001,0 1.499001,-0.672001 1.499001,-1.5c0,-0.829 -0.671,-1.499001 -1.499001,-1.499001l0,0z" clip-rule="evenodd" fill-rule="evenodd" />
+                                                        </g>
+                                                    </svg>
+                                                </span>
+                                                <span class="rating-figure">(4.1 / 5)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--single recipe ends-->
+                                <!--single recipe-->
+                                <div class="recipe-single">
+                                    <div class="recipe-image">
+                                        <a href="#"><img src="images/temp-images/main-recipe3.jpg" alt="image"></a>
+                                    </div>
+                                    <div class="outer-detail">
+                                        <div class="detail">
+                                            <h3>
+                                                <a href="#">
+                                                    Pasto Pizza with fillas
+                                                    Cheese Toppings
+                                                </a>
+                                            </h3>
+                                            <div class="short-separator"></div>
+                                            <div class="rating-box">
+                                                <span class="rating-icons">
+                                                    <svg class="icon-container" width="25" height="19" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 19">
+
+                                                        <g>
+                                                            <title>background</title>
+                                                            <rect fill="none" height="21" width="27" y="-1" x="-1" />
+                                                        </g>
+                                                        <g>
+                                                            <title>Layer 1</title>
+                                                            <path class="icon-svg" d="m24.671816,17.625433c0,0.438 -0.286999,0.801001 -0.681,0.935001c-0.095001,0.036999 -0.198002,0.064999 -0.318001,0.064999l-16.000998,0c-0.553,0 -1,-0.448 -1,-1c0,-0.553999 0.447,-1 1,-1l14.950999,0c-0.500999,-5.053999 -4.764997,-9 -9.950999,-9c-5.523,0 -10,4.477001 -10,10c0,0 0.063,1 -1,1c-1.062,0 -1,-1 -1,-1c0,-5.769999 4.071,-10.581999 9.495001,-11.734999c-0.306002,-0.52 -0.495001,-1.117001 -0.495001,-1.765001c0,-1.933999 1.566999,-3.499999 3.5,-3.499999c1.931999,0 3.499,1.567 3.499,3.499999c0,0.739 -0.232998,1.423 -0.624998,1.989c4.984999,1.459 8.625998,6.056 8.625998,11.511l0,0zm-11.499,-15c-0.828999,0 -1.500999,0.670001 -1.500999,1.499001c0,0.827999 0.672001,1.5 1.500999,1.5c0.828001,0 1.499001,-0.672001 1.499001,-1.5c0,-0.829 -0.671,-1.499001 -1.499001,-1.499001l0,0z" clip-rule="evenodd" fill-rule="evenodd" />
+                                                        </g>
+                                                    </svg>
+                                                </span>
+                                                <span class="rating-icons">
+                                                    <svg class="icon-container" width="25" height="19" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 19">
+
+                                                        <g>
+                                                            <title>background</title>
+                                                            <rect fill="none" height="21" width="27" y="-1" x="-1" />
+                                                        </g>
+                                                        <g>
+                                                            <title>Layer 1</title>
+                                                            <path class="icon-svg" d="m24.671816,17.625433c0,0.438 -0.286999,0.801001 -0.681,0.935001c-0.095001,0.036999 -0.198002,0.064999 -0.318001,0.064999l-16.000998,0c-0.553,0 -1,-0.448 -1,-1c0,-0.553999 0.447,-1 1,-1l14.950999,0c-0.500999,-5.053999 -4.764997,-9 -9.950999,-9c-5.523,0 -10,4.477001 -10,10c0,0 0.063,1 -1,1c-1.062,0 -1,-1 -1,-1c0,-5.769999 4.071,-10.581999 9.495001,-11.734999c-0.306002,-0.52 -0.495001,-1.117001 -0.495001,-1.765001c0,-1.933999 1.566999,-3.499999 3.5,-3.499999c1.931999,0 3.499,1.567 3.499,3.499999c0,0.739 -0.232998,1.423 -0.624998,1.989c4.984999,1.459 8.625998,6.056 8.625998,11.511l0,0zm-11.499,-15c-0.828999,0 -1.500999,0.670001 -1.500999,1.499001c0,0.827999 0.672001,1.5 1.500999,1.5c0.828001,0 1.499001,-0.672001 1.499001,-1.5c0,-0.829 -0.671,-1.499001 -1.499001,-1.499001l0,0z" clip-rule="evenodd" fill-rule="evenodd" />
+                                                        </g>
+                                                    </svg>
+                                                </span>
+                                                <span class="rating-icons">
+                                                    <svg class="icon-container" width="25" height="19" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 19">
+
+                                                        <g>
+                                                            <title>background</title>
+                                                            <rect fill="none" height="21" width="27" y="-1" x="-1" />
+                                                        </g>
+                                                        <g>
+                                                            <title>Layer 1</title>
+                                                            <path class="icon-svg" d="m24.671816,17.625433c0,0.438 -0.286999,0.801001 -0.681,0.935001c-0.095001,0.036999 -0.198002,0.064999 -0.318001,0.064999l-16.000998,0c-0.553,0 -1,-0.448 -1,-1c0,-0.553999 0.447,-1 1,-1l14.950999,0c-0.500999,-5.053999 -4.764997,-9 -9.950999,-9c-5.523,0 -10,4.477001 -10,10c0,0 0.063,1 -1,1c-1.062,0 -1,-1 -1,-1c0,-5.769999 4.071,-10.581999 9.495001,-11.734999c-0.306002,-0.52 -0.495001,-1.117001 -0.495001,-1.765001c0,-1.933999 1.566999,-3.499999 3.5,-3.499999c1.931999,0 3.499,1.567 3.499,3.499999c0,0.739 -0.232998,1.423 -0.624998,1.989c4.984999,1.459 8.625998,6.056 8.625998,11.511l0,0zm-11.499,-15c-0.828999,0 -1.500999,0.670001 -1.500999,1.499001c0,0.827999 0.672001,1.5 1.500999,1.5c0.828001,0 1.499001,-0.672001 1.499001,-1.5c0,-0.829 -0.671,-1.499001 -1.499001,-1.499001l0,0z" clip-rule="evenodd" fill-rule="evenodd" />
+                                                        </g>
+                                                    </svg>
+                                                </span>
+                                                <span class="rating-icons">
+                                                    <svg class="icon-container" width="25" height="19" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 19">
+
+                                                        <g>
+                                                            <title>background</title>
+                                                            <rect fill="none" height="21" width="27" y="-1" x="-1" />
+                                                        </g>
+                                                        <g>
+                                                            <title>Layer 1</title>
+                                                            <path class="icon-svg" d="m24.671816,17.625433c0,0.438 -0.286999,0.801001 -0.681,0.935001c-0.095001,0.036999 -0.198002,0.064999 -0.318001,0.064999l-16.000998,0c-0.553,0 -1,-0.448 -1,-1c0,-0.553999 0.447,-1 1,-1l14.950999,0c-0.500999,-5.053999 -4.764997,-9 -9.950999,-9c-5.523,0 -10,4.477001 -10,10c0,0 0.063,1 -1,1c-1.062,0 -1,-1 -1,-1c0,-5.769999 4.071,-10.581999 9.495001,-11.734999c-0.306002,-0.52 -0.495001,-1.117001 -0.495001,-1.765001c0,-1.933999 1.566999,-3.499999 3.5,-3.499999c1.931999,0 3.499,1.567 3.499,3.499999c0,0.739 -0.232998,1.423 -0.624998,1.989c4.984999,1.459 8.625998,6.056 8.625998,11.511l0,0zm-11.499,-15c-0.828999,0 -1.500999,0.670001 -1.500999,1.499001c0,0.827999 0.672001,1.5 1.500999,1.5c0.828001,0 1.499001,-0.672001 1.499001,-1.5c0,-0.829 -0.671,-1.499001 -1.499001,-1.499001l0,0z" clip-rule="evenodd" fill-rule="evenodd" />
+                                                        </g>
+                                                    </svg>
+                                                </span>
+                                                <span class="rating-icons">
+                                                    <svg class="icon-container" width="25" height="19" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 19">
+
+                                                        <g>
+                                                            <title>background</title>
+                                                            <rect fill="none" height="21" width="27" y="-1" x="-1" />
+                                                        </g>
+                                                        <g>
+                                                            <title>Layer 1</title>
+                                                            <path class="icon-svg" d="m24.671816,17.625433c0,0.438 -0.286999,0.801001 -0.681,0.935001c-0.095001,0.036999 -0.198002,0.064999 -0.318001,0.064999l-16.000998,0c-0.553,0 -1,-0.448 -1,-1c0,-0.553999 0.447,-1 1,-1l14.950999,0c-0.500999,-5.053999 -4.764997,-9 -9.950999,-9c-5.523,0 -10,4.477001 -10,10c0,0 0.063,1 -1,1c-1.062,0 -1,-1 -1,-1c0,-5.769999 4.071,-10.581999 9.495001,-11.734999c-0.306002,-0.52 -0.495001,-1.117001 -0.495001,-1.765001c0,-1.933999 1.566999,-3.499999 3.5,-3.499999c1.931999,0 3.499,1.567 3.499,3.499999c0,0.739 -0.232998,1.423 -0.624998,1.989c4.984999,1.459 8.625998,6.056 8.625998,11.511l0,0zm-11.499,-15c-0.828999,0 -1.500999,0.670001 -1.500999,1.499001c0,0.827999 0.672001,1.5 1.500999,1.5c0.828001,0 1.499001,-0.672001 1.499001,-1.5c0,-0.829 -0.671,-1.499001 -1.499001,-1.499001l0,0z" clip-rule="evenodd" fill-rule="evenodd" />
+                                                        </g>
+                                                    </svg>
+                                                </span>
+                                                <span class="rating-figure">(4.1 / 5)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--single recipe ends-->
+                            </div>
+                        </div>*@
+
+                        <div class="recipe-comments">
+                            <h3 class="lined">Yorumlar (2)</h3>
+                            <ul v-for="(comment, index) in recipeComments">
+                                <li>
+                                   <div class="comment">
+                                        <h5><a href="#">{{comment.firstName}} {{comment.lastName}}   </a></h5>
+                                        <span class="time">(2hours ago)</span>
+                                        <p>
+                                            Rinse the chicken pieces in cold water and pat dry. Place the chicken in a large, resealable zip-top bag and pour in the marinade.
+                                        </p>
+                                        <a href="#" class="reply-button">Reply</a>
+                                    </div>
+                                 </li>
+
+                             
+                            </ul>
+                        </div>
+
+                        <div class="comment-form">
+                            <h3 class="lined">Yorumunuzu giriniz</h3>
+
+                            <form >
+                                <div class="row">
+                                    <div class="form-group">
+                                        <input v-model="form.firstName" type="text" name="firstName" placeholder="Lütfen Adınızı Giriniz:" />
+                                        <p v-if="validationErrors.some(x => x.key == 'firstName' )">
+                                            {{ validationErrors.find(x => x.key == 'firstName').value }}
+                                        </p>
+                                    </div>
+                                    <div class="form-group">
+                                        <input v-model="form.lastName" type="text" name="lastName" placeholder="Lütfen Soyadınızı Giriniz:" />
+                                        <p v-if="validationErrors.some(x => x.key == 'lastName' )">
+                                            {{ validationErrors.find(x => x.key == 'lastName').value }}
+                                        </p>
+                                    </div>
+                                    <div class="form-group">
+                                        <input v-model="form.email" type="email" name="email" placeholder="Lütfen Email Adresinizi Giriniz:" />
+                                        <p v-if="validationErrors.some(x => x.key == 'email' )">
+                                            {{ validationErrors.find(x => x.key == 'email').value }}
+                                        </p>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <textarea v-model="form.message" name="message" id="message" cols="30" rows="10" placeholder="Lütfen Yorumunuzu Giriniz:"></textarea>
+                                        <p v-if="validationErrors.some(x => x.key == 'message' )">
+                                            {{ validationErrors.find(x => x.key == 'message').value }}
+                                        </p>
+                                    </div>
+                                   
+                                </div>
+
+                               
+                                <button type="button" class="submit-comment" @@Click="addComment">Gönder</button>
+                            </form>
+                        </div>
+
+                      
+
                     </div>
                 </div>
             </div>
+            <div class="col-md-4 col-lg-3">
+                <aside>
+                    <div class="side-bar">
+                        <!--recipes search widget-->
+                        <div class="widget recipe-search">
+
+                            <div class="category-list">
+                                <!--<div class="list-inner">-->
+                                @await Component.InvokeAsync("StaticCategory")
+                                <!--</div>-->
+                            </div>
+                        </div>
+                        <!--recipes search widget ends-->
+                        <!--popular recipes widget-->
+                        <div class="widget latest-news-widget">
+                            <h2>popular recipes</h2>
+                            <ul>
+                                <li>
+                                    <div class="thumb">
+                                        <a href="#">
+                                            <img src="/Theme/images/temp-images/widget-thumbnail.jpg" alt="thumbnail" />
+                                        </a>
+                                    </div>
+                                    <div class="detail">
+                                        <a href="#">Pimento Cheese Potato Skins</a>
+                                        <span class="post-date">March 21,2015</span>
+                                    </div>
+                                </li>
+
+                                <li>
+                                    <div class="thumb">
+                                        <a href="#">
+                                            <img src="/Theme/images/temp-images/widget-thumbnail.jpg" alt="thumbnail" />
+                                        </a>
+                                    </div>
+                                    <div class="detail">
+                                        <a href="#">Pimento Cheese Potato Skins</a>
+                                        <span class="post-date">March 21,2015</span>
+                                    </div>
+                                </li>
+
+                                <li>
+                                    <div class="thumb">
+                                        <a href="#">
+                                            <img src="/Theme/images/temp-images/widget-thumbnail.jpg" alt="thumbnail" />
+                                        </a>
+                                    </div>
+                                    <div class="detail">
+                                        <a href="#">Pimento Cheese Potato Skins</a>
+                                        <span class="post-date">March 21,2015</span>
+                                    </div>
+                                </li>
+
+                                <li>
+                                    <div class="thumb">
+                                        <a href="#">
+                                            <img src="/Theme/images/temp-images/widget-thumbnail.jpg" alt="thumbnail" />
+                                        </a>
+                                    </div>
+                                    <div class="detail">
+                                        <a href="#">Pimento Cheese Potato Skins</a>
+                                        <span class="post-date">March 21,2015</span>
+                                    </div>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <!--popular recipes widget ends-->
+                        <div class="widget">
+                            <a href="#">
+                                <img src="/Theme/images/temp-images/add-side.jpg" alt="Add" />
+                            </a>
+                        </div>
+
+                        <div class="widget widget-measurements">
+                            <h2 >Yemek Yapım Ölçüleri</h2>
+                            <ul>
+                                <li>1 Bardak = 250 ml = 16 Yemek Kaşığı</li>
+                                <li>1/2 Bardak = 125 ml = 8 Yemek Kaşığı</li>
+                                <li>1/3 Bardak = 83 ml = 5.3 Yemek Kaşığı</li>
+                                <li>1/4 Bardak = 62 ml = 4 Yemek Kaşığı</li>
+                                <li>1 Tutam = 1/8 çay kaşığı</li>
+                            </ul>
+                            @*<a class="default-btn small-button theme-color" href="#">Read More</a>*@
+                        </div>
+
+                        <!--widget overlay-->
+                        <div class="widget widget-overlay">
+                            <a href="#">
+                                <figure>
+                                    <img src="/Theme/images/temp-images/image-overlay.jpg" alt="image" />
+                                    <figcaption>our weekly special</figcaption>
+                                </figure>
+                            </a>
+
+                        </div>
+                        <!--widget overlay ends-->
+                        <!--latest news widget-->
+                        <div class="widget latest-news-widget">
+                            <h2>Latest News</h2>
+                            <ul>
+                                <li>
+                                    <div class="thumb">
+                                        <a href="#">
+                                            <img src="/Theme/images/temp-images/widget-thumbnail.jpg" alt="thumbnail" />
+                                        </a>
+                                    </div>
+                                    <div class="detail">
+                                        <a href="#">Pimento Cheese Potato Skins</a>
+                                        <span class="post-date">March 21,2015</span>
+                                    </div>
+                                </li>
+
+                                <li>
+                                    <div class="thumb">
+                                        <a href="#">
+                                            <img src="/Theme/images/temp-images/widget-thumbnail.jpg" alt="thumbnail" />
+                                        </a>
+                                    </div>
+                                    <div class="detail">
+                                        <a href="#">Pimento Cheese Potato Skins</a>
+                                        <span class="post-date">March 21,2015</span>
+                                    </div>
+                                </li>
+
+                                <li>
+                                    <div class="thumb">
+                                        <a href="#">
+                                            <img src="/Theme/images/temp-images/widget-thumbnail.jpg" alt="thumbnail" />
+                                        </a>
+                                    </div>
+                                    <div class="detail">
+                                        <a href="#">Pimento Cheese Potato Skins</a>
+                                        <span class="post-date">March 21,2015</span>
+                                    </div>
+                                </li>
+
+                                <li>
+                                    <div class="thumb">
+                                        <a href="#">
+                                            <img src="/Theme/images/temp-images/widget-thumbnail.jpg" alt="thumbnail" />
+                                        </a>
+                                    </div>
+                                    <div class="detail">
+                                        <a href="#">Pimento Cheese Potato Skins</a>
+                                        <span class="post-date">March 21,2015</span>
+                                    </div>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <!--latest news widget ends-->
+                        <!--get social-->
+                        <div class="widget widget-get-social">
+                            <h2>get social</h2>
+                            <ul>
+                                <li class="facebook">
+                                    <a href="#">
+                                        <i class="fa fa-facebook"></i>
+                                        <span class="count">23.5K</span>
+                                        <span class="count-type">Likes</span>
+                                    </a>
+                                </li>
+                                <li class="twitter">
+                                    <a href="#">
+                                        <i class="fa fa-twitter"></i>
+                                        <span class="count">23.5K</span>
+                                        <span class="count-type">Likes</span>
+                                    </a>
+                                </li>
+                                <li class="google-plus">
+                                    <a href="#">
+                                        <i class="fa fa-google-plus"></i>
+                                        <span class="count">23.5K</span>
+                                        <span class="count-type">Likes</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <!--get social ends-->
+                    </div>
+                </aside>
+            </div>
         </div>
+
     </div>
-
-
-
-    <!--banner ends-->
-
-
 </div>
 
 <script>
-         
+
      var vm = new Vue({
          el: '#detailPage',
          data: function () {
              return {
+                 form: {
+                     firstName: null,
+                     lastName: null,
+                     email: null,
+                     message: null
+                 },
+
                  loading: false,
                  item: {},
-                 data: null
-
+                 data: {
+                        id: null
+                 },
+           
+                 validationErrors: [],
+                 recipeComments: [],
+                 category: []
              }
          },
          methods: {
+             addRate(rate, id, oldRate) {
+
+                 axios.post("recipe/addrate", { recipeid: id, rate }).then((res) => {
+                     if (res.data.hasError) {
+                         this.$message.error(res.data.message)
+                     }
+                     else {
+                         this.$message.success(res.data.message);
+                     }
+                 })
+             },
              changeBookmark(id) {
                  axios.post("recipe/togglebookmark", { id })
+             },
+             addComment(){
+                 axios.post("comment/add", {
+                     ...this.form,
+                     recipeID: this.data.id
+                 }).then((res) => {
+
+                     this.validationErrors = res.data.validationErrors
+
+                     if (res.data.hasError) {
+                         this.$message.error(res.data.message);
+                     }
+                     else {
+                         this.$message.success(res.data.message);
+                         this.form = {
+                             firstName: null,
+                             lastName: null,
+                             email: null,
+                             message: null
+                         }
+                     }
+
+                 })
              }
          },
 
          beforeMount() {
              axios.post('recipe/detail', { slug: '@ViewContext.HttpContext.Request.Query["slug"]' }).then((res) => {
-                 this.data = res.data.data;
+                 if (res.data.data.videoLink == null) {
+                     res.data.data.videoLink = "#"
 
+                 }
+                this.data = res.data.data;
+                 
 
                  setTimeout(() => {
                      $('.slider').slick();
-                 },500)
-              })
+                    
+                 }, 500)
+
+
+                 axios.post('comment/get', { Id: this.data.id }).then((res) => {
+                     this.recipeComments = res.data.data.items;
+                 })
+
+                 axios.post('category/random').then((res) => {
+                     this.category = res.data.data.items;
+                 })
+
+
+
+             })
+               
+                 
          }
-           
+
  })</script>
 
 <style>
     .slick-prev {
-        z-index: 9 ;
+        z-index: 9;
     }
 </style>

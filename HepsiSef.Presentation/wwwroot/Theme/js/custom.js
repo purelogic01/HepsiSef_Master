@@ -64,49 +64,7 @@
 
 
         // Slick search recipe types carousel
-        $('#search-carousel').slick({
-            infinite: true,
-            slidesToShow: 5,
-            slidesToScroll: 1,
-            autoplay: false,
-            touchThreshold: 50,
-            arrows: false,
-            autoplaySpeed: 1000,
-            speed: 1000,
-            pauseOnHover: false,
-            swipeToSlide: true,
-            responsive: [
-                {
-                    breakpoint: 1199,
-                    settings: {
-                        slidesToShow: 3
-
-                    }
-                },
-                {
-                    breakpoint: 991,
-                    settings: {
-                        slidesToShow: 4
-
-                    }
-                },
-                {
-                    breakpoint: 767,
-                    settings: {
-                        slidesToShow: 3
-
-                    }
-                },
-                {
-                    breakpoint: 450,
-                    settings: {
-                        slidesToShow: 2
-
-                    }
-                }
-            ]
-            //infinite: false
-        });
+        
 
 
 

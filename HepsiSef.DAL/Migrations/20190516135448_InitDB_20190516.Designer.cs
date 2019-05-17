@@ -3,14 +3,16 @@ using System;
 using HepsiSef.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HepsiSef.DAL.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20190516135448_InitDB_20190516")]
+    partial class InitDB_20190516
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,38 +67,6 @@ namespace HepsiSef.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Category");
-                });
-
-            modelBuilder.Entity("HepsiSef.Entity.App.Comment", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreateDate");
-
-                    b.Property<string>("Email");
-
-                    b.Property<string>("FirstName");
-
-                    b.Property<string>("IPAddress");
-
-                    b.Property<string>("LastName");
-
-                    b.Property<string>("Message");
-
-                    b.Property<Guid>("RecipeID");
-
-                    b.Property<int>("RecordStatus");
-
-                    b.Property<DateTime?>("UpdateDate");
-
-                    b.Property<Guid?>("UserID");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RecipeID");
-
-                    b.ToTable("Comment");
                 });
 
             modelBuilder.Entity("HepsiSef.Entity.App.Contact", b =>
@@ -392,14 +362,6 @@ namespace HepsiSef.DAL.Migrations
                         .WithMany("Bookmarks")
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("HepsiSef.Entity.App.Comment", b =>
-                {
-                    b.HasOne("HepsiSef.Entity.Definition.Recipe", "Recipe")
-                        .WithMany("Comments")
-                        .HasForeignKey("RecipeID")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("HepsiSef.Entity.Definition.Recipe", b =>
